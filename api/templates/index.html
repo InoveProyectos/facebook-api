@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Meta APIs Consumer</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+</head>
+
+<body>
+    <h1>Endpoints Disponibles</h1>
+    <div class="get-endpoint">
+        <h2> <span class="get">GET</span> /webhook </h2>
+    </div>
+    <b>
+        <p>
+            Petición de tipo GET, enviar en URL: mode, token y challenge
+        </p>
+        <p>
+            Ejemplo de Request (Reemplazar VERIFY_TOKEN por el Token a enviar)
+        </p>
+    </b>
+
+    <li>
+        <span class="keyword">curl</span> -X <span class="keyword">GET</span> "https://meta-apis-consumer.herokuapp.com/webhook?hub.verify_token=VERIFY_TOKEN&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
+    </li>
+
+    <h2> <span class="post">POST</span> /webhook </h2>
+    <b>
+        <p>
+            Petición de tipo POST, recibe un mensaje
+        </p>
+        <p>
+            Ejemplo de Request
+        </p>
+    </b>
+
+    <li>
+        <span class="keyword">curl</span> -H "Content-Type: application/json" -X <span class="keyword">POST</span> "https://meta-apis-consumer.herokuapp.com/webhook" -d '{"object": "page", "entry": [{"messaging": [{"message": "TEST_MESSAGE"}]}]}'
+    </li>
+</body>
+
+</html>

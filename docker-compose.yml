@@ -1,0 +1,34 @@
+version: '3.3'
+
+networks:
+  isolation-network:
+    name: isolation-network
+    driver: bridge
+
+services:
+  flask-app:
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: meta-api-consumer
+    hostname: flask-app
+    
+    ports:
+      - "8051:5000"
+
+    expose:
+      - "5000"
+
+    env_file:
+      - api/.env
+
+    networks: 
+      - isolation-network
+
+    container_name: meta-api-consumer
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/back_end
