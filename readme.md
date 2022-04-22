@@ -46,7 +46,7 @@ docker-compose down
 ```
 
 ## Deploy
-Actualmente, en [Heroku](https://meta-apis-consumer.herokuapp.com)
+Actualmente, en [Heroku](https://inove-facebook-api.herokuapp.com/)
 
 # Formato mensajes de commit: [Semantic commits](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
 - `feat`: (new feature for the user, not a new feature for build script)
