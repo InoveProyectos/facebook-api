@@ -6,14 +6,14 @@ networks:
     driver: bridge
 
 services:
-  flask-app:
+  facebook-api:
     tty: true
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
 
-    image: meta-api-consumer
-    hostname: flask-app
+    image: facebook-api
+    hostname: inove
     
     ports:
       - "8051:5000"
@@ -27,7 +27,7 @@ services:
     networks: 
       - isolation-network
 
-    container_name: meta-api-consumer
+    container_name: facebook-api
     volumes:
       - type: bind
         source: .
