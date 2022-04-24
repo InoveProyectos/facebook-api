@@ -36,7 +36,7 @@ docker-compose up
 ```
 ### Iniciar una consola en Docker
 ```bash
-docker exec -it flask-app bash
+docker exec -it facebook-api bash
 ```
 
 ### Detener el proyecto
