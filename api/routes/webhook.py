@@ -13,11 +13,11 @@ from tools.colors import *
 
 from src.Facebook import *
 
-# Creo un objeto facebook para luego interactuar con la página
-fb = Facebook()
-
 # Cargar variables de entorno (archivo .env)
 load_dotenv()
+
+# Creo un objeto facebook para luego interactuar con la página
+fb = Facebook(access_token = str(os.getenv('ACCESS_TOKEN')), page_id = str(os.getenv('PAGE_ID')))
 
 # Blueprint que va a contener todos los endpoints del messenger webhook
 webhook = Blueprint('webhook', __name__)
