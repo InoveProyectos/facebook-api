@@ -7,7 +7,6 @@ como variable de entorno
 '''
 
 import requests
-from dotenv import load_dotenv
 import os, sys, inspect
 
 # Setear import path en directorio api
@@ -20,8 +19,6 @@ from src import requests_tools
 # facebook sdk
 import facebook as sdk
 
-load_dotenv()
-
 class Facebook:
     def __init__(self, access_token : str, page_id : str):
         self.access_token = access_token
@@ -30,20 +27,30 @@ class Facebook:
         self.graph_api = sdk.GraphAPI(access_token)
         self.send_message_url = "https://graph.facebook.com/v13.0/me/messages?access_token=" + str(access_token)
 
-    def send_message(self, recv_id, message_content):
-        '''
-        Función que recibe id del receptor del mensaje (recv_id) y contenido
-        del mensaje (message_content) y envía el mensaje por privado al usuario.
-        Esta función es usada para responder mensajes de messenger, no para responder por privado
-        a comentarios de nuestras publicaciones
-        '''
-        payload = requests_tools.generate_message_payload(recv_id, message_content)
-        header = requests_tools.application_json()
 
-        requests.post(url = self.send_message_url, 
-                    headers = header, 
-                    data = payload)
-    
+    def make_post(self, message):
+        '''
+        Uso Facebook SDK para realizar un post que contiene un mensaje
+        '''
+        response = self.graph_api.put_object("me", "feed", message = message)
+        print(f'Make post status: {response}')
+
+
+    def make_post_image(self, image_path, message):
+        '''
+        Uso Facebook SDK para realizar un post que contiene una imagen y un mensaje 
+        '''
+        self.graph_api.put_photo(open(image_path, "rb"), message = message)
+
+
+    def comment(self, post_id, message):
+        '''
+        Este método se encarga de publicar un comentario, el post_id puede ser el id de un post
+        o el id de otro comentario, y la página hará una respuesta al comentario
+        '''
+        response = self.graph_api.put_object(str(post_id), "comments", message = message)
+        print(f'Comment: Status {response}')
+
 
     def get_page_posts(self):
         '''
@@ -76,6 +83,38 @@ class Facebook:
         response = requests.get(url = url)
 
         return response.json()
+
+
+    def send_message(self, recv_id, message_content):
+        '''
+        Función que recibe id del receptor del mensaje (recv_id) y contenido
+        del mensaje (message_content) y envía el mensaje por privado al usuario.
+        Esta función es usada para responder mensajes de messenger, no para responder por privado
+        a comentarios de nuestras publicaciones
+        '''
+        payload = requests_tools.generate_message_payload(recv_id, message_content)
+        header = requests_tools.application_json()
+
+        requests.post(url = self.send_message_url, 
+                    headers = header, 
+                    data = payload)
+    
+
+    def private_reply(self, comment_id, message_content):
+        '''
+        Responder con un mensaje a alguien que haya comentado un post
+        '''
+
+        url = self.send_message_url
+
+        header = requests_tools.application_json()
+        payload = requests_tools.generate_private_reply_payload(comment_id, message_content)
+
+        response = requests.post(url = url, headers = header, data = payload)
+        print(f'Private reply: Status { response }')
+
+        self.put_like(comment_id)
+
 
     def private_reply_buttons(self, comment_id, message_content : dict):
         '''
@@ -112,22 +151,6 @@ class Facebook:
 
         requests.post(url = url, headers = header, data = payload)
 
-
-    def private_reply(self, comment_id, message_content):
-        '''
-        Responder con un mensaje a alguien que haya comentado un post
-        '''
-
-        url = self.send_message_url
-
-        header = requests_tools.application_json()
-        payload = requests_tools.generate_private_reply_payload(comment_id, message_content)
-
-        response = requests.post(url = url, headers = header, data = payload)
-        print(f'Private reply: Status { response }')
-
-        self.put_like(comment_id)
-
     
     def put_like(self, object_id):
         '''
@@ -136,26 +159,3 @@ class Facebook:
         otra página
         '''
         self.graph_api.put_like(object_id = object_id)
-
-
-    def make_post(self, message):
-        '''
-        Uso Facebook SDK para realizar un post que contiene un mensaje
-        '''
-        self.graph_api.put_object("me", "feed", message = message)
-
-
-    def make_post_image(self, image_path, message):
-        '''
-        Uso Facebook SDK para realizar un post que contiene una imagen y un mensaje 
-        '''
-        self.graph_api.put_photo(open(image_path, "rb"), message = message)
-
-
-    def comment(self, post_id, message):
-        '''
-        Este método se encarga de publicar un comentario, el post_id puede ser el id de un post
-        o el id de otro comentario, y la página hará una respuesta al comentario
-        '''
-        response = self.graph_api.put_object(str(post_id), "comments", message = message)
-        print(f'Comment: Status {response}')

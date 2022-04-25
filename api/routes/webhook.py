@@ -4,23 +4,28 @@ from flask import Blueprint, Response, request
 from dotenv import load_dotenv
 import os, sys, inspect
 
+
 # Setear import path en directorio api
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
-from tools.colors import *
 
+from tools.colors import *
 from src.Facebook import *
+
 
 # Cargar variables de entorno (archivo .env)
 load_dotenv()
 
+
 # Creo un objeto facebook para luego interactuar con la página
 fb = Facebook(access_token = str(os.getenv('ACCESS_TOKEN')), page_id = str(os.getenv('PAGE_ID')))
 
+
 # Blueprint que va a contener todos los endpoints del messenger webhook
 webhook = Blueprint('webhook', __name__)
+
 
 # Agregar soporte de peticiones de tipo GET al webhook
 @webhook.route('/webhook', methods = ['GET'])
@@ -54,17 +59,20 @@ def webhook_post():
     body = request.get_json()
     print(body) 
 
+    if 'field' in body:
+        if body.get('field') == 'feed':
+            # Esto significa que nos llegó un webhook de la página
+            return Response(status = 200)
+
     if body.get('object') == 'page':
         webhook_event = body.get('entry')[0].get('messaging')[0].get('message')
         print('Webhook event: ' + OKGREEN + str(webhook_event))
 
-        ###### PROVISORIO: Enviar una respuesta al mensaje ######
+        # Enviar una respuesta al mensaje
 
         recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
         message_content = webhook_event.get('text')
         fb.send_message(recv_id, message_content)
-
-        ###### FIN DE RESPUESTA GENERADA #######
 
         # Return '200 OK' response to all requests
         return Response('EVENT_RECEIVED', status = 200)
