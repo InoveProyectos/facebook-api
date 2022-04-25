@@ -11,14 +11,8 @@ Este archivo tiene el objetivo de cumplir la siguiente rutina
 from Facebook import Facebook
 
 import json
-from dotenv import load_dotenv
 from datetime import datetime
 from pytz import timezone
-import os
-
-
-load_dotenv()
-
 
 def answer_all_feed_comments(access_token, page_id, timezone = 'America/Argentina/Buenos_Aires'):
     '''

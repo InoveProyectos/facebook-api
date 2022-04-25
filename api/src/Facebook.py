@@ -9,8 +9,6 @@ como variable de entorno
 import requests
 from dotenv import load_dotenv
 import os, sys, inspect
-from datetime import datetime
-from pytz import timezone
 
 # Setear import path en directorio api
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -18,8 +16,6 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 from src import requests_tools
-
-from tools.pretty_print import pretty_print_json
 
 # facebook sdk
 import facebook as sdk
@@ -41,7 +37,7 @@ class Facebook:
         Esta función es usada para responder mensajes de messenger, no para responder por privado
         a comentarios de nuestras publicaciones
         '''
-        payload = requests_tools.message_data(recv_id, message_content)
+        payload = requests_tools.generate_message_payload(recv_id, message_content)
         header = requests_tools.application_json()
 
         requests.post(url = self.send_message_url, 
@@ -112,7 +108,7 @@ class Facebook:
         url = self.send_message_url
 
         header = requests_tools.application_json()
-        payload = requests_tools.generate_payload_reply_button(comment_id, message_content)
+        payload = requests_tools.generate_reply_button_payload(comment_id, message_content)
 
         requests.post(url = url, headers = header, data = payload)
 
@@ -125,7 +121,7 @@ class Facebook:
         url = self.send_message_url
 
         header = requests_tools.application_json()
-        payload = requests_tools.generate_payload_reply(comment_id, message_content)
+        payload = requests_tools.generate_private_reply_payload(comment_id, message_content)
 
         response = requests.post(url = url, headers = header, data = payload)
         print(f'Private reply: Status { response }')

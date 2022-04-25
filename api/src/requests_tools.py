@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 
-import requests
 from unidecode import unidecode
-
 
 def application_json():
     return { "content-type" : "application/json" }
 
 
-def message_data(recv_id, message_content):
+def generate_message_payload(recv_id, message_content):
     '''
     Función que genera payload para mensajes privados
     '''
@@ -25,7 +23,7 @@ def message_data(recv_id, message_content):
     return str(send_message_data)
 
 
-def generate_payload_reply_button(comment_id, message_content):
+def generate_reply_button_payload(comment_id, message_content):
     data = {
         "recipient": {
             # "post_id": "101213069228786_106005088749584"
@@ -47,7 +45,7 @@ def generate_payload_reply_button(comment_id, message_content):
     return str(data)
 
 
-def generate_payload_reply(comment_id, message_content):
+def generate_private_reply_payload(comment_id, message_content):
     data = {
         "recipient": {
             "comment_id": str(comment_id)
@@ -59,3 +57,4 @@ def generate_payload_reply(comment_id, message_content):
     }
 
     return str(data)
+    
