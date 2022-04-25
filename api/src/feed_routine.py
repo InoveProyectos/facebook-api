@@ -48,7 +48,7 @@ def answer_all_feed_comments(access_token, page_id, timezone = 'America/Argentin
     print(json.dumps(feed, indent = 4))
 
 
-def get_feed(access_token, page_id, timezone):
+def get_feed(access_token, page_id, timezone = 'America/Argentina/Buenos_Aires'):
     '''
     Función que se encarga de agregar valores interesantes para el usuario, entre
     esos valores se encuentran
@@ -109,5 +109,3 @@ def already_liked_by(id, comment):
     '''
     return any([True if user.get('id') == id else False for user in comment.get('users_that_liked')])
     
-
-answer_all_feed_comments(os.getenv('ACCESS_TOKEN'), os.getenv('PAGE_ID'))

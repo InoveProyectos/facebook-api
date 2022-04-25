@@ -22,7 +22,7 @@
     </b>
 
     <li>
-        <span class="keyword">curl</span> -X <span class="keyword">GET</span> "https://meta-apis-consumer.herokuapp.com/webhook?hub.verify_token=VERIFY_TOKEN&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
+        <span class="keyword">curl</span> -X <span class="keyword">GET</span> "https://inove-facebook-api.herokuapp.com/webhook?hub.verify_token=VERIFY_TOKEN&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
     </li>
 
     <h2> <span class="post">POST</span> /webhook </h2>
@@ -36,7 +36,7 @@
     </b>
 
     <li>
-        <span class="keyword">curl</span> -H "Content-Type: application/json" -X <span class="keyword">POST</span> "https://meta-apis-consumer.herokuapp.com/webhook" -d '{"object": "page", "entry": [{"messaging": [{"message": "TEST_MESSAGE"}]}]}'
+        <span class="keyword">curl</span> -H "Content-Type: application/json" -X <span class="keyword">POST</span> "https://inove-facebook-api.herokuapp.com/webhook" -d '{"object": "page", "entry": [{"messaging": [{"message": "TEST_MESSAGE"}]}]}'
     </li>
 </body>
 
