@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<!-- Titulo de la página-->
+<head>
+    <title>Get Page Feed</title>
+</head>
+
+<body>
+
+<h1>Get Page Feed</h1>
+
+<form method = "POST" action = "{{ url_for('feed.feed_post') }}">
+    
+  <label>Page Access Token:</label><br>
+  <input type="string" name="access_token"><br>
+  
+  <label>Page ID:</label><br>
+  <input type="string" name="page_id"><br><br>
+  
+  <input type="submit" value="Submit">
+</form>
+
+<h1>Answer a comment</h1>
+
+<form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
+    
+    <label>Page Access Token:</label><br>
+    <input type="string" name="access_token"><br>
+    
+    <label>Page ID:</label><br>
+    <input type="string" name="page_id"><br><br>
+  
+    <label>Comment ID:</label><br>
+    <input type="string" name="comment_id"><br><br>
+    
+    <label>Answer:</label><br>
+    <input type="string" name="answer"><br><br>
+
+    <input type="submit" value="Submit">
+
+</form> 
+
+</body>
+</html>

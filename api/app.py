@@ -34,9 +34,9 @@ def index():
 
 if __name__ == '__main__':
     print(OKGREEN + 'webhook listening')
-    app.run()
+    # app.run()
 
     # Configuracion para usar la api desde host:
-    # app.run(debug = True,
-            # port = server_config['port'],
-            # host = server_config['host'])
+    app.run(debug = True,
+            port = server_config['port'],
+            host = server_config['host'])

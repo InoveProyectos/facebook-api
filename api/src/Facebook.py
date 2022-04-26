@@ -176,7 +176,7 @@ class Facebook:
         response = requests.post(url = url, headers = header, data = payload)
         print(f'Private reply: Status { response }')
 
-        self.put_like(comment_id)
+        return response.json()
 
 
     def private_reply_buttons(self, comment_id, message_content : dict):
