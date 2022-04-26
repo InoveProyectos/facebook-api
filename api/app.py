@@ -8,6 +8,7 @@ from cfg.config import config
 
 # Routes imports
 from routes.webhook import webhook
+from routes.feed import feed
 
 # Tools imports
 from tools.colors import *
@@ -24,7 +25,7 @@ app = Flask(__name__)
 
 ### Routes ###
 app.register_blueprint(webhook)
-
+app.register_blueprint(feed)
 
 @app.route('/', methods = ['GET'])
 def index():
@@ -33,9 +34,9 @@ def index():
 
 if __name__ == '__main__':
     print(OKGREEN + 'webhook listening')
-    app.run()
+    # app.run()
 
     # Configuracion para usar la api desde host:
-    # app.run(debug = True,
-    #         port = server_config['port'],
-    #         host = server_config['host'])
+    app.run(debug = True,
+            port = server_config['port'],
+            host = server_config['host'])

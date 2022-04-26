@@ -8,6 +8,8 @@ como variable de entorno
 
 import requests
 import os, sys, inspect
+from datetime import datetime
+from pytz import timezone
 
 # Setear import path en directorio api
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -26,6 +28,67 @@ class Facebook:
         
         self.graph_api = sdk.GraphAPI(access_token)
         self.send_message_url = "https://graph.facebook.com/v13.0/me/messages?access_token=" + str(access_token)
+
+
+    def get_feed(self, timezone = 'America/Argentina/Buenos_Aires'):
+        '''
+        Obtener el feed COMPLETO de una página y mostrarlo con la zona horaria solicitada
+        esto incluye
+        - Posts
+        - Comentarios
+        - Likes en post y comentarios
+        '''
+        feed = self.get_page_posts()
+
+        if 'error' in feed:
+            return feed
+        
+        feed = self.modify_feed_timezone_response(feed, timezone)
+
+        for post in feed.get('data'):
+                    # Ir a buscar los comentarios del post, con sus respectivos likes
+            comments = self.get_post_comments(post.get('id')).get('data')
+            
+            for comment in comments:
+                comment_likes = self.get_post_likes(comment.get('id'))
+                comment['likes_amount'] = comment_likes.get('likes').get('summary').get('total_count')
+                comment['users_that_liked'] = comment_likes.get('likes').get('data')
+
+            # Agregar la key comments en el post
+            post['comments'] = comments
+            
+            # Agregar información acerca de los likes del post
+            likes = self.get_post_likes(post.get('id'))
+            post['likes_amount'] = likes.get('likes').get('summary').get('total_count')
+            post['users_that_liked'] = likes.get('likes').get('data')
+        
+        return feed
+    
+
+    def modify_feed_timezone_response(self, response_dict, user_timezone):
+        '''
+        Este método se encarga de devolver el mismo response_dict que recibe, pero modificando cada instancia
+        de created_time usando la zona horaria del usuario
+        '''
+        for value in response_dict.get('data'):
+            # obtener created time
+            created_time = value.get('created_time')
+
+            # modificar el string para que tenga formato 'iso'
+            created_time = created_time[:-2] + ':' + created_time[-2:]
+
+            created_time = datetime.fromisoformat(created_time).astimezone(timezone(user_timezone))
+
+            value['created_time'] = str(created_time)        
+
+        return response_dict
+
+
+    def already_liked(self, comment):
+        '''
+        Devuelve true si alguno de los usuarios que dieron like coincide con el que nosotros buscamos
+        '''
+        return any([True if user.get('id') == self.id else False for user in comment.get('users_that_liked')])
 
 
     def make_post(self, message):

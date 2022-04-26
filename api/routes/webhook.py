@@ -72,7 +72,7 @@ def webhook_post():
 
         recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
         message_content = webhook_event.get('text')
-        fb.send_message(recv_id, message_content)
+        fb.send_message(recv_id, None)
 
         # Return '200 OK' response to all requests
         return Response('EVENT_RECEIVED', status = 200)

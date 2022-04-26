@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from unidecode import unidecode
-
 def application_json():
     return { "content-type" : "application/json" }
 
@@ -16,7 +14,7 @@ def generate_message_payload(recv_id, message_content):
             "id": recv_id,
         },
         "message": {
-            "text": f"Tu mensaje fue: { unidecode(message_content) }. Vamos a contestar tan pronto como podamos!"
+            "text": f"Hola! Te recordamos que toda la información la podés encontrar en nuestra página web! Pronto nos pondremos en contacto por este medio :)"
         }
     }
 
