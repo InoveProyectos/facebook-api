@@ -48,7 +48,24 @@ def answer_comment():
     fb = Facebook(access_token, page_id)
 
     fb.put_like(comment_id)
-    fb.comment(comment_id, 'Te enviamos mas información por privado :)')
+    fb.comment(comment_id, 'Hola que tal! :)')
     response = fb.private_reply(comment_id, answer)
     
     return response
+
+
+@feed.route('/unanswered-comments', methods = ['POST'])
+def unanswered_comments():
+    access_token = str(request.form.get('access_token'))
+    page_id = str(request.form.get('page_id'))
+
+    fb = Facebook(access_token, page_id)
+    feed = fb.get_feed()
+    
+    for post in feed.get('data'):
+        for comment in post.get('comments'):
+            if fb.already_liked(comment):
+                post['comments'].remove(comment)
+
+    return render_template('unanswered_comments.html', context = feed, access_token = access_token, page_id = page_id)
+    # return jsonify(feed)

@@ -8,7 +8,7 @@
 
 <body>
 
-<h1>Get Page Feed</h1>
+<h1>Get Page Feed (Complete)</h1>
 
 <form method = "POST" action = "{{ url_for('feed.feed_post') }}">
     
@@ -21,25 +21,18 @@
   <input type="submit" value="Submit">
 </form>
 
-<h1>Answer a comment</h1>
+<h1>Get unanswered Comments</h1>
 
-<form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
+<form method = "POST" action = "{{ url_for('feed.unanswered_comments') }}">
     
-    <label>Page Access Token:</label><br>
-    <input type="string" name="access_token"><br>
-    
-    <label>Page ID:</label><br>
-    <input type="string" name="page_id"><br><br>
+  <label>Page Access Token:</label><br>
+  <input type="string" name="access_token"><br>
   
-    <label>Comment ID:</label><br>
-    <input type="string" name="comment_id"><br><br>
-    
-    <label>Answer:</label><br>
-    <input type="string" name="answer"><br><br>
-
-    <input type="submit" value="Submit">
-
-</form> 
+  <label>Page ID:</label><br>
+  <input type="string" name="page_id"><br><br>
+  
+  <input type="submit" value="Submit">
+</form>
 
 </body>
 </html>

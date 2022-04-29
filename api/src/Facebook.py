@@ -88,7 +88,7 @@ class Facebook:
         '''
         Devuelve true si alguno de los usuarios que dieron like coincide con el que nosotros buscamos
         '''
-        return any([True if user.get('id') == self.id else False for user in comment.get('users_that_liked')])
+        return any([user.get('id') == self.page_id for user in comment.get('users_that_liked')])
 
 
     def make_post(self, message):

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<!-- Titulo de la página-->
+<head>
+    <title>Comentarios no respondidos</title>
+</head>
+
+<body>
+
+<h1>Comentarios Sin Responder</h1>
+
+<!-- Recorrer cada uno de los posts -->
+{% for post in context.get('data') %}
+    <!-- Acceder solo a los posts que tienen comentarios sin responder -->
+    {% if post.get('comments') %}
+        <h2 style="color:blueviolet;"> Post - {{ post.get('message') }}: {{ post.get('created_time') }}</h2>
+        
+        {% for comment in post.get('comments') %}
+            <h3 style="color:blue;"> Comentario sin responder </h3>
+
+            <form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
+                <strong>Comentario:{{ comment.get('message') }}</strong><br/>
+                <strong>From: {{ comment.get('from').get('name') }}</strong><br/>
+                <strong>Time: {{ comment.get('created_time') }}</strong><br/>
+                
+                <br>
+
+                <input type="hidden" name="comment_id" value="{{ comment.get('id') }}">
+                <input type="hidden" name="access_token" value="{{ access_token }}">
+                <input type="hidden" name="page_id" value="{{ page_id }}">
+
+                <label> Respuesta </label>
+                <input type="text" name="answer"/>
+
+                <input type="submit"/>
+            </form>
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+</body>
+</html>
