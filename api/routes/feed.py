@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Blueprint, Response, request, jsonify, render_template
+from flask import Blueprint, Response, request, jsonify, render_template, redirect, url_for
 import traceback
 from src.Facebook import *
 
@@ -39,19 +39,22 @@ def answer_comment():
     access_token = str(request.form.get('access_token'))
     page_id = str(request.form.get('page_id'))
     comment_id = str(request.form.get('comment_id'))
-    answer = str(request.form.get('answer'))
+    public_answer = str(request.form.get('public_answer'))
+    private_answer = str(request.form.get('private_answer'))
 
-    if not (access_token or page_id or comment_id or answer):
+    if not (access_token and page_id and comment_id and public_answer):
         print('No se enviaron los parámetros necesarios')
         return Response(status = 400) 
     
     fb = Facebook(access_token, page_id)
 
     fb.put_like(comment_id)
-    fb.comment(comment_id, 'Hola que tal! :)')
-    response = fb.private_reply(comment_id, answer)
+    fb.comment(comment_id, public_answer)
     
-    return response
+    if private_answer:
+        fb.private_reply(comment_id, private_answer)
+    
+    return redirect(url_for('feed.feed_get'))
 
 
 @feed.route('/unanswered-comments', methods = ['POST'])

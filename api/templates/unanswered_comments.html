@@ -21,7 +21,13 @@
 
             <form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
                 <strong>Comentario:{{ comment.get('message') }}</strong><br/>
-                <strong>From: {{ comment.get('from').get('name') }}</strong><br/>
+                
+                {% if 'from' in comment %}
+                    <strong>From: {{ comment.get('from').get('name') }}</strong><br/>
+                {% else %}
+                    <strong> No conocemos al usuario que hizo el comentario </strong><br/>
+                {% endif %}
+
                 <strong>Time: {{ comment.get('created_time') }}</strong><br/>
                 
                 <br>
@@ -30,9 +36,14 @@
                 <input type="hidden" name="access_token" value="{{ access_token }}">
                 <input type="hidden" name="page_id" value="{{ page_id }}">
 
-                <label> Respuesta </label>
-                <input type="text" name="answer"/>
+                <label> Respuesta Pública </label>
+                <input type="text" name="public_answer"/>
 
+                {% if 'from' in comment %}
+                    <label> Respuesta Privada </label>
+                    <input type="text" name="private_answer"/>
+                {% endif %}
+                
                 <input type="submit"/>
             </form>
         {% endfor %}
