@@ -14,7 +14,7 @@ def generate_message_payload(recv_id, message_content):
             "id": recv_id,
         },
         "message": {
-            "text": f"Hola! Te recordamos que toda la información la podés encontrar en nuestra página web! Pronto nos pondremos en contacto por este medio :)"
+            "text": str(message_content)
         }
     }
 

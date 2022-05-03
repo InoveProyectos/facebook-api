@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-from flask import Flask, Response, request, render_template
+from flask import Flask, Response, request, render_template, redirect, url_for
 
 # Config imports
 from cfg.config import config
@@ -29,7 +29,12 @@ app.register_blueprint(feed)
 
 @app.route('/', methods = ['GET'])
 def index():
-    return render_template('index.html')
+    return redirect(url_for('feed.feed_get'))
+
+
+@app.route('/docs', methods = ['GET'])
+def docs():
+    return render_template('docs.html')
 
 
 if __name__ == '__main__':

@@ -12,6 +12,7 @@ sys.path.insert(0, parentdir)
 
 
 from tools.colors import *
+from tools.messages import *
 from src.Facebook import *
 
 
@@ -71,8 +72,10 @@ def webhook_post():
         # Enviar una respuesta al mensaje
 
         recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
-        message_content = webhook_event.get('text')
-        fb.send_message(recv_id, None)
+        
+        # Usar funcion get_message para obtener un mensaje aleatorio
+        message = get_message_response()
+        fb.send_message(recv_id, message)
 
         # Return '200 OK' response to all requests
         return Response('EVENT_RECEIVED', status = 200)
@@ -80,3 +83,10 @@ def webhook_post():
     # Returns a '404 Not Found' if event is not from a page subscription
     print(f'{FAIL} 404 Not Found: {body}')
     return Response(status = 404)
+
+
+for i in range(10):
+    fb = Facebook(access_token=os.getenv('ACCESS_TOKEN'), page_id = os.getenv('PAGE_ID'))
+    response = fb.send_message('5309191945779484', 'Probando')
+
+print(response.json())

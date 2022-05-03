@@ -26,6 +26,7 @@ class Facebook:
         self.access_token = access_token
         self.page_id = page_id
         
+        # Usar SDK de Facebook
         self.graph_api = sdk.GraphAPI(access_token)
         self.send_message_url = "https://graph.facebook.com/v13.0/me/messages?access_token=" + str(access_token)
 
@@ -46,7 +47,7 @@ class Facebook:
         feed = self.modify_feed_timezone_response(feed, timezone)
 
         for post in feed.get('data'):
-                    # Ir a buscar los comentarios del post, con sus respectivos likes
+            # Ir a buscar los comentarios del post, con sus respectivos likes
             comments = self.get_post_comments(post.get('id')).get('data')
             
             for comment in comments:
@@ -158,9 +159,11 @@ class Facebook:
         payload = requests_tools.generate_message_payload(recv_id, message_content)
         header = requests_tools.application_json()
 
-        requests.post(url = self.send_message_url, 
+        response = requests.post(url = self.send_message_url, 
                     headers = header, 
                     data = payload)
+
+        return response
     
 
     def private_reply(self, comment_id, message_content):
