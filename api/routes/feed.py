@@ -70,5 +70,8 @@ def unanswered_comments():
             if fb.already_liked(comment):
                 post['comments'].remove(comment)
 
+    print(feed)
+    print(access_token)
+    print(page_id)
     return render_template('unanswered_comments.html', context = feed, access_token = access_token, page_id = page_id)
     # return jsonify(feed)

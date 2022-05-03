@@ -3,7 +3,8 @@
 
 <!-- Titulo de la página-->
 <head>
-    <title>Comentarios no respondidos</title>
+    <link rel="stylesheet" href="/static/style.css" />
+
 </head>
 
 <body>
@@ -14,10 +15,10 @@
 {% for post in context.get('data') %}
     <!-- Acceder solo a los posts que tienen comentarios sin responder -->
     {% if post.get('comments') %}
-        <h2 style="color:blueviolet;"> Post - {{ post.get('message') }}: {{ post.get('created_time') }}</h2>
+        <h2> Post - {{ post.get('message') }}: {{ post.get('created_time') }}</h2>
         
         {% for comment in post.get('comments') %}
-            <h3 style="color:blue;"> Comentario sin responder </h3>
+            <h4"> Comentario sin responder </h3>
 
             <form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
                 <strong>Comentario:{{ comment.get('message') }}</strong><br/>
@@ -47,7 +48,8 @@
                 <input type="submit"/>
             </form>
         {% endfor %}
+        <hr>
     {% endif %}
-{% endfor %}
+    {% endfor %}
 </body>
 </html>

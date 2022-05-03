@@ -1,77 +1,50 @@
-html {
-    -webkit-text-size-adjust: 100%;
+body {
+  height: 100%;
+  color: white;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
 }
 
-h1 {
-    color: rgb(3, 27, 78);
-    font-family: Epilogue, sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: bold;
-    letter-spacing: -0.5px;
-    line-height: 40px;
-    margin: 0px;
-    padding: 0px;
-    word-break: break-word;
-} 
-
-h2 {
-    color: rgb(77, 91, 124);
-    font-family: Epilogue,sans-serif;
-    font-size: 1.5em;
-    font-weight: bold;
-    display: block;
-    margin-block-start: 0.83em;
-    margin-block-end: 0.83em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+body {
+  display: inline-block;
+  -ms-flex-align: left;
+  align-items: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #25d2b2;
 }
 
-p {
-    color: rgb(77, 91, 124);
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin: auto;
+}
+
+h2{
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+}
+
+h4{
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
     font-size: 16px;
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    line-height: 1.5;
-    font-family: Inter,sans-serif;
 }
 
-li {
-    text-indent: 1.5em;
-    margin: 0px;
-    padding: 0px;
-    /* white-space:pre-wrap; */
-    box-sizing: border-box;
-    display: list-item;
-    text-align: -webkit-match-parent;
-    list-style: none;
-    background-color: rgb(8, 27, 75);
-    border-radius: 8px;
-    color: rgb(255, 255, 255);
-    font-family: "JetBrains Mono", sans-serif;
-    font-size: 14px;
-    line-height: 4em;
-    padding: 3px;
+.submit-btn{
+    background-color: green;
 }
 
-.keyword {
-    color: #FF4084;
-}
-
-
-.get {
-    color:white;
-    background-color: lightskyblue;
-    border-radius: 8px;
-    padding: 6px;
-}
-
-.post {
-    color:white;
-    background-color: rgb(135, 221, 135);
-    border-radius: 8px;
-    padding: 6px;
+.leave-btn{
+    background-color: red;
 }
