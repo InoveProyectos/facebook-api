@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # app.run()
 
     # Configuracion para usar la api desde host:
-    app.run(debug = False,
+    app.run(debug = True,
             port = server_config['port'],
             host = server_config['host'],
             ssl_context='adhoc')
