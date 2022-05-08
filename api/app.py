@@ -9,10 +9,10 @@ from cfg.config import config
 # Routes imports
 from routes.webhook import webhook
 from routes.feed import feed
+from routes.facebook_login import fb_login
 
 # Tools imports
 from tools.colors import *
-
 
 ### Path and configuration parameters ###
 script_path = os.path.dirname(os.path.realpath(__file__))
@@ -26,6 +26,7 @@ app = Flask(__name__)
 ### Routes ###
 app.register_blueprint(webhook)
 app.register_blueprint(feed)
+app.register_blueprint(fb_login)
 
 @app.route('/', methods = ['GET'])
 def index():
@@ -42,6 +43,7 @@ if __name__ == '__main__':
     # app.run()
 
     # Configuracion para usar la api desde host:
-    app.run(debug = True,
+    app.run(debug = False,
             port = server_config['port'],
-            host = server_config['host'])
+            host = server_config['host'],
+            ssl_context='adhoc')
