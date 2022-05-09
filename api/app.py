@@ -28,11 +28,6 @@ app.register_blueprint(webhook)
 app.register_blueprint(feed)
 app.register_blueprint(fb_login)
 
-@app.route('/', methods = ['GET'])
-def index():
-    return redirect(url_for('feed.feed_get'))
-
-
 @app.route('/docs', methods = ['GET'])
 def docs():
     return render_template('docs.html')
