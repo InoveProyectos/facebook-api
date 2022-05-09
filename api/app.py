@@ -9,7 +9,6 @@ from cfg.config import config
 # Routes imports
 from routes.webhook import webhook
 from routes.feed import feed
-from routes.home import home
 
 # Tools imports
 from tools.colors import *
