@@ -10,23 +10,20 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
-
-from tools.colors import *
-from tools.messages import *
 from src.Facebook import *
-
 
 # Cargar variables de entorno (archivo .env)
 load_dotenv()
 
+# Colores que se usan en los prints
+OKGREEN = '\033[92m'
+FAIL = '\033[91m'
 
 # Creo un objeto facebook para luego interactuar con la página
 fb = Facebook(access_token = str(os.getenv('ACCESS_TOKEN')), page_id = str(os.getenv('PAGE_ID')))
 
-
 # Blueprint que va a contener todos los endpoints del messenger webhook
 webhook = Blueprint('webhook', __name__)
-
 
 # Agregar soporte de peticiones de tipo GET al webhook
 @webhook.route('/webhook', methods = ['GET'])
@@ -74,7 +71,7 @@ def webhook_post():
         recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
         
         # Usar funcion get_message para obtener un mensaje aleatorio
-        message = get_message_response()
+        message = 'Hola que tal esta app todavía está en desarrollo'
         fb.send_message(recv_id, message)
 
         # Return '200 OK' response to all requests
@@ -83,10 +80,3 @@ def webhook_post():
     # Returns a '404 Not Found' if event is not from a page subscription
     print(f'{FAIL} 404 Not Found: {body}')
     return Response(status = 404)
-
-
-for i in range(10):
-    fb = Facebook(access_token=os.getenv('ACCESS_TOKEN'), page_id = os.getenv('PAGE_ID'))
-    response = fb.send_message('5309191945779484', 'Probando')
-
-print(response.json())
