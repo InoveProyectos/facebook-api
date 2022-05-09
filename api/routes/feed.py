@@ -16,7 +16,7 @@ load_dotenv()
 
 feed = Blueprint('feed', __name__)
 
-@feed.route('/feed', methods = ['GET'])
+@feed.route('/feed', methods = ['POST'])
 def load_feed():
     body = request.form.to_dict()
 
