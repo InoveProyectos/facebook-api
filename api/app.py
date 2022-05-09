@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-from flask import Flask, Response, request, render_template, redirect, url_for
+from flask import Flask, Response, request, render_template, redirect, url_for, jsonify
 
 # Config imports
 from cfg.config import config
@@ -9,7 +9,6 @@ from cfg.config import config
 # Routes imports
 from routes.webhook import webhook
 from routes.feed import feed
-from routes.facebook_login import fb_login
 from routes.home import home
 
 # Tools imports
@@ -25,14 +24,25 @@ app = Flask(__name__)
 
 
 ### Routes ###
-app.register_blueprint(home)
 app.register_blueprint(webhook)
 app.register_blueprint(feed)
-app.register_blueprint(fb_login)
+
 
 @app.route('/docs', methods = ['GET'])
 def docs():
     return render_template('docs.html')
+
+
+@app.route('/home', methods = ['GET'])
+def index():
+    cookies = request.cookies.to_dict()
+    return render_template('home.html')
+
+
+@app.route('/get_cookies', methods = ['GET'])
+def get_cookies():
+    # Return browser cookies
+    return jsonify(request.cookies.to_dict())
 
 
 if __name__ == '__main__':
