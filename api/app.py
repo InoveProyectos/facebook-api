@@ -9,6 +9,7 @@ from cfg.config import config
 # Routes imports
 from routes.webhook import webhook
 from routes.feed import feed
+from routes.facebook_login import fb_login
 from routes.home import home
 
 # Tools imports
@@ -27,6 +28,7 @@ app = Flask(__name__)
 app.register_blueprint(home)
 app.register_blueprint(webhook)
 app.register_blueprint(feed)
+app.register_blueprint(fb_login)
 
 @app.route('/docs', methods = ['GET'])
 def docs():
