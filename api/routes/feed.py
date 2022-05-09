@@ -4,9 +4,6 @@ from flask import Blueprint, Response, request, jsonify, redirect, url_for
 from dotenv import load_dotenv
 import os, sys, inspect
 
-from itsdangerous import json
-
-
 # Setear import path en directorio api
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
