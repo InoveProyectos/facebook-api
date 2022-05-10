@@ -70,8 +70,7 @@ def webhook_post():
 
         recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
         
-        # Usar funcion get_message para obtener un mensaje aleatorio
-        message = 'Hola que tal esta app todavía está en desarrollo'
+        message = 'Hola que tal! Dentro de las próximas horas vamos a ponernos en contacto con vos. :)'
         fb.send_message(recv_id, message)
 
         # Return '200 OK' response to all requests
