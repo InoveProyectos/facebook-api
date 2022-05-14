@@ -9,6 +9,14 @@
         <li class="list-group-item">Page ID: {{ page.get('id') }}</li>
         <li class="list-group-item">Access Token: {{ page.get('access_token') }}</li>
         
+        <form method="POST" action="{{ url_for('feed.make_post') }}">
+            <label for="content">Facebook post content:</label>
+            <input type="text" name="content" style="width:100%;">
+            <input type="hidden" name="page_id" value="{{ page.get('id') }}"/>
+            <input type="hidden" name="access_token" value="{{ page.get('access_token') }}"/>
+            <input type="submit" value="Create a new Post" class="getButton"/>
+        </form>
+
         <form method="POST" action="{{ url_for('feed.get_feed') }}">
             <input type="hidden" name="page_id" value="{{ page.get('id') }}"/>
             <input type="hidden" name="access_token" value="{{ page.get('access_token') }}"/>
@@ -20,6 +28,8 @@
             <input type="hidden" name="access_token" value="{{ page.get('access_token') }}"/>
             <input type="submit" value="Get Unanswered Comments" class="getButton"/>
         </form>
+
+
     </ul>
     <br>
     <br>
