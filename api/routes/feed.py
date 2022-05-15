@@ -29,13 +29,14 @@ def home():
     access_token = body.get('accessToken')
     user_id = body.get('userId')
 
-    if not access_token or user_id:
+    if not (access_token or user_id):
         print('No se recibieron los datos necesarios')
         redirect(url_for('index'))
 
     # Page that the user owns
     accounts = requests.get(
         f'https://graph.facebook.com/{user_id}/accounts?access_token={access_token}')
+        
     accounts = accounts.json().get('data')
 
     if not accounts:
