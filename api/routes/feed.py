@@ -77,10 +77,6 @@ def get_unanswered_comments():
     fb = Facebook(access_token, page_id)
     feed = fb.get_feed()
 
-    if not feed.get('data'):
-        print('No quedan posts por responder')
-        return redirect(url_for('index'))
-        
     for post in feed.get('data'):
         for comment in post.get('comments'):
             if fb.already_liked(comment):

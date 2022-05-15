@@ -11,45 +11,49 @@
 
 <h1>Comentarios Sin Responder</h1>
 
-<!-- Recorrer cada uno de los posts -->
-{% for post in context.get('data') %}
-    <!-- Acceder solo a los posts que tienen comentarios sin responder -->
-    {% if post.get('comments') %}
-        <h2> Post - {{ post.get('message') }}: {{ post.get('created_time') }}</h2>
-        
-        {% for comment in post.get('comments') %}
-            <h4"> Comentario sin responder </h3>
+{% if not context.get('data') %}
+    <p> No hay comentarios sin responder </p>
+{% else %}
+    <!-- Recorrer cada uno de los posts -->
+    {% for post in context.get('data') %}
+        <!-- Acceder solo a los posts que tienen comentarios sin responder -->
+        {% if post.get('comments') %}
+            <h2> Post - {{ post.get('message') }}: {{ post.get('created_time') }}</h2>
+            
+            {% for comment in post.get('comments') %}
+                <h4"> Comentario sin responder </h3>
 
-            <form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
-                <strong>Comentario:{{ comment.get('message') }}</strong><br/>
-                
-                {% if 'from' in comment %}
-                    <strong>From: {{ comment.get('from').get('name') }}</strong><br/>
-                {% else %}
-                    <strong> No conocemos al usuario que hizo el comentario </strong><br/>
-                {% endif %}
+                <form method = "POST" action = "{{ url_for('feed.answer_comment') }}">
+                    <strong>Comentario:{{ comment.get('message') }}</strong><br/>
+                    
+                    {% if 'from' in comment %}
+                        <strong>From: {{ comment.get('from').get('name') }}</strong><br/>
+                    {% else %}
+                        <strong> No conocemos al usuario que hizo el comentario </strong><br/>
+                    {% endif %}
 
-                <strong>Time: {{ comment.get('created_time') }}</strong><br/>
-                
-                <br>
+                    <strong>Time: {{ comment.get('created_time') }}</strong><br/>
+                    
+                    <br>
 
-                <input type="hidden" name="comment_id" value="{{ comment.get('id') }}">
-                <input type="hidden" name="access_token" value="{{ access_token }}">
-                <input type="hidden" name="page_id" value="{{ page_id }}">
+                    <input type="hidden" name="comment_id" value="{{ comment.get('id') }}">
+                    <input type="hidden" name="access_token" value="{{ access_token }}">
+                    <input type="hidden" name="page_id" value="{{ page_id }}">
 
-                <label> Respuesta Pública </label>
-                <input type="text" name="public_answer"/>
+                    <label> Respuesta Pública </label>
+                    <input type="text" name="public_answer"/>
 
-                {% if 'from' in comment %}
-                    <label> Respuesta Privada </label>
-                    <input type="text" name="private_answer"/>
-                {% endif %}
-                
-                <input type="submit"/>
-            </form>
-        {% endfor %}
-        <hr>
-    {% endif %}
+                    {% if 'from' in comment %}
+                        <label> Respuesta Privada </label>
+                        <input type="text" name="private_answer"/>
+                    {% endif %}
+                    
+                    <input type="submit"/>
+                </form>
+            {% endfor %}
+            <hr>
+        {% endif %}
     {% endfor %}
+{% endif %}
 </body>
 </html>
