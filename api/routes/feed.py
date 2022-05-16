@@ -115,6 +115,9 @@ def make_post():
     page_id = str(request.form.get('page_id'))
     content = str(request.form.get('content'))
 
+    if not content:
+        redirect(url_for('index'))
+
     fb = Facebook(access_token, page_id)
 
     fb.make_post(content)
