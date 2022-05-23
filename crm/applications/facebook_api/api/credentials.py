@@ -53,7 +53,7 @@ class PostCredentialAPIView(CreateAPIView):
     {generic_header_message('POST')}
     '''
 
-    queryset = Credential.objects().all()
+    queryset = Credential.objects.all()
     serializer_class = CredentialSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 

@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Credential:
+class Credential(models.Model):
     '''
     Tabla que contiene las credenciales de un usuario de Facebook
     '''
@@ -27,4 +27,3 @@ class Credential:
 
     def __str__(self):
         return f'{self.user.username} - {self.access_token}'
-        

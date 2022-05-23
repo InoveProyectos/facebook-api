@@ -2,6 +2,7 @@
 
 from django.urls import path
 from applications.facebook_api.api.credentials import *
+from applications.facebook_api.api.webhook import webhook
 
 
 urlpatterns = [
@@ -10,6 +11,9 @@ urlpatterns = [
     path('comics/post', PostCredentialAPIView.as_view()),
     path('comics/get-post', ListCreateCredentialAPIView.as_view()),
     path('comics/<pk>/update', RetrieveUpdateCredentialAPIView.as_view()),
-    path('comics/<pk>/delete', DestroyCredentialAPIView.as_view())
+    path('comics/<pk>/delete', DestroyCredentialAPIView.as_view()),
+
+    # NOTE: Webhook endpoint
+    path('webhook/', webhook)
 
 ]
