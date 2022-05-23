@@ -13,6 +13,7 @@ body{
   height: 100vh;
   overflow: hidden;
 }
+
 .center{
   position: absolute;
   top: 50%;
@@ -112,3 +113,4 @@ input[type="submit"]:hover{
 .signup_link a:hover{
   text-decoration: underline;
 }
+

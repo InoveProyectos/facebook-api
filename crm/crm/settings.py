@@ -150,7 +150,7 @@ STATICFILES_DIRS = (str(BASE_DIR.joinpath('staticfiles')),)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # NOTE: Para manejo de sesión.
-LOGIN_REDIRECT_URL = '/facebook/dashboard/'
+LOGIN_REDIRECT_URL = '/facebook/dashboard'
 LOGIN_URL = '/facebook/login'
 
 '''

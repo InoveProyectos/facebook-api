@@ -25,7 +25,7 @@ urlpatterns = [
     # NOTE: Site pages
     path('', IndexView.as_view(), name='index'),  # Index view
     
-    path('dashboard', login_required(DashboardView.as_view()), name='index'),  # Index view
+    path('dashboard', login_required(DashboardView.as_view()), name='dashboard'), 
 
     
 ]
