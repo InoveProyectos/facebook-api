@@ -148,3 +148,41 @@ STATICFILES_DIRS = (str(BASE_DIR.joinpath('staticfiles')),)
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# NOTE: Para manejo de sesión.
+LOGIN_REDIRECT_URL = '/facebook/dashboard/'
+LOGIN_URL = '/facebook/login'
+
+'''
+# NOTE: Logging settings
+
+LOGGING_DIR = f'{BASE_DIR}/facebook/logs/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'generic': {
+            'format': '[%(asctime)s] |%(levelname)s| %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+            'style': '%'
+        }
+    },
+    'handlers': {
+        'general': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'general-batch.log'),
+            'maxBytes': 1024 * 1024 * 15,  # 15MB
+            'backupCount': 10,
+            'formatter': 'generic',        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['general'],
+            'propagate': True,
+            'level': 'DEBUG',
+        }
+    }
+}
+'''

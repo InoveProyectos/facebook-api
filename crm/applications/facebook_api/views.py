@@ -78,3 +78,11 @@ class IndexView(TemplateView):
     '''
 
     template_name = 'facebook_api/index.html'
+
+
+class DashboardView(TemplateView):
+    '''
+    Página donde el usuario podrá interactuar con su Facebook
+    '''
+    
+    template_name = 'facebook_api/dashboard.html'

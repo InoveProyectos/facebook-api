@@ -24,4 +24,8 @@ urlpatterns = [
 
     # NOTE: Site pages
     path('', IndexView.as_view(), name='index'),  # Index view
+    
+    path('dashboard', DashboardView.as_view(), name='index'),  # Index view
+
+    
 ]
