@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('facebook/', include('applications.facebook_api.urls'))
+    path('facebook/', include('applications.facebook_api.urls')),
+    path('facebook/', include('applications.facebook_api.api.urls')),
 ]

@@ -31,8 +31,6 @@
                 userId = response.authResponse.userID;
                 console.log(accessToken);
                 console.log(userId);
-                document.getElementById("accessToken").setAttribute('value', getAccessToken());
-                document.getElementById("userId").setAttribute('value', getUserId());
             }
         });
 
@@ -61,6 +59,9 @@
     function checkLoginState() {
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
+
+            // Enviar un POST a un endpoint que registre las credenciales
+            
             location.reload();
         });
     }
@@ -85,20 +86,11 @@
         });
     }
 
-    // getters
-    function getAccessToken() {
-        return accessToken;
-    }
-
-    function getUserId() {
-        return userId;
-    }
-
 </script>
 
 <div class="cuadro">
     <h1> Iniciar sesión con Facebook </h1>
-    <p> De esta forma podrás manejar tu aplicación usando nuestra aplicación.</p>
+    <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
     <fb:login-button id="fb-btn"
         scope="public_profile,email, pages_manage_posts, pages_messaging, pages_show_list, pages_manage_metadata, pages_manage_engagement, pages_read_engagement"
         onlogin="checkLoginState();">
