@@ -2,7 +2,7 @@
 
 from django.urls import path
 from applications.facebook_api.api.credentials import *
-from applications.facebook_api.api.webhook import webhook, test
+from applications.facebook_api.api.webhook import webhook
 
 
 urlpatterns = [
@@ -15,6 +15,5 @@ urlpatterns = [
 
     # NOTE: Webhook endpoint
     path('webhook/', webhook),
-    path('test', test),
 
 ]

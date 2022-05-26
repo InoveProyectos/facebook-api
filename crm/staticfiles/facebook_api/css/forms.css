@@ -144,3 +144,8 @@ input[type="submit"]:hover{
   float:right;
   margin: 20px;
 }
+
+.platform-login a {
+  float:right;
+  margin: 20px;
+}

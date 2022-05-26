@@ -1,7 +1,8 @@
+#!/usr/bin/env python
+
 from django.db import models
 
 from django.contrib.auth.models import User
-
 
 class Credential(models.Model):
     '''
@@ -18,8 +19,6 @@ class Credential(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     
-    updated_at = models.DateTimeField(auto_now=True)
-
     class Meta:
         db_table = 'facebook_api_credentials'
         verbose_name = 'Credential'

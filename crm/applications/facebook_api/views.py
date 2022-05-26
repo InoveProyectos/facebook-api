@@ -10,9 +10,10 @@ from django.contrib.auth.forms import UserCreationForm
 # Models
 from django.contrib.auth.models import User
 
+# Functions
+from applications.facebook_api.api.fb_login import token_expired
 
 # NOTE: Registro e inicio de sesión
-
 
 class BaseView(TemplateView):
     '''

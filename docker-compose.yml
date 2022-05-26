@@ -58,5 +58,5 @@ services:
     # Antes de iniciar este servicio, ya debe haber iniciado el servicio "db"  
     depends_on: ["db"]
     
-    # command: python crm/manage.py runserver 0.0.0.0:8000
-    command: gunicorn --chdir /opt/back_end/crm crm.wsgi:application --bind 0.0.0.0:$PORT
+    command: python crm/manage.py runserver 0.0.0.0:8000
+    # command: gunicorn --chdir /opt/back_end/crm crm.wsgi:application --bind 0.0.0.0:$PORT
