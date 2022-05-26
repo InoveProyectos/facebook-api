@@ -7,10 +7,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
 from applications.facebook_api.models import Credential
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from crm.settings import get_env
 
+import pytz
+
+utc=pytz.UTC
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -68,10 +71,11 @@ def token_is_expired(user_obj):
     Verifica si el token de usuario se venció
     '''
     credential_obj = Credential.objects.filter(user_id = user_obj).first()
-    
+
     if credential_obj:
-        # Si aún no se cumplieron los 50 días, retornar True
-        if credential_obj.created_at + datetime.timedelta(days=credential_obj.expires_in) >= datetime.now():
+        start_time = credential_obj.created_at.replace(tzinfo=utc)
+        end_time = datetime.now().replace(tzinfo=utc)
+        if start_time + timedelta(days=credential_obj.expires_in) <= end_time:
             return True
         else:
             return False

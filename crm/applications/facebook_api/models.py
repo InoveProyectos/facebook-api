@@ -3,6 +3,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Credential(models.Model):
     '''
@@ -17,7 +18,7 @@ class Credential(models.Model):
     
     expires_in = models.IntegerField()
     
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default = timezone.now())
     
     class Meta:
         db_table = 'facebook_api_credentials'

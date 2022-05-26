@@ -99,4 +99,4 @@ class DashboardView(TemplateView):
         context['expired'] = expired
         context['user'] = user_obj
 
-        return super().get_context_data(**kwargs)
+        return context
