@@ -12,7 +12,7 @@ services:
     environment:
       POSTGRES_DB: inove
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: '0000'
+      POSTGRES_PASSWORD: ics2022ma-
 
     ports:
       # Puerdo por defecto de Postgres
@@ -34,7 +34,7 @@ services:
   facebook-api:
     build: 
       context: .
-      dockerfile: docker/Dockerfile  
+      dockerfile: Dockerfile  
 
     image: facebook-api 
     container_name: facebook-api
@@ -58,4 +58,5 @@ services:
     # Antes de iniciar este servicio, ya debe haber iniciado el servicio "db"  
     depends_on: ["db"]
     
-    command: python crm/manage.py runserver 0.0.0.0:8000
+    # command: python crm/manage.py runserver 0.0.0.0:8000
+    command: gunicorn --chdir /opt/back_end/marvel marvel.wsgi:application --bind 0.0.0.0:$PORT

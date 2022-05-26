@@ -114,7 +114,7 @@ input[type="submit"]:hover{
   text-decoration: underline;
 }
 
-.cuadro{
+.platform-login{
   position: absolute;
   top: 24%;
   left: 50%;
@@ -127,20 +127,20 @@ input[type="submit"]:hover{
   padding: 5px;
 
 }
-.cuadro h1{
+.platform-login h1{
   text-align: left;
   padding: 20px 0;
   border-bottom: 1px solid silver;
 }
 
-.cuadro p{
+.platform-login p{
   text-align: left;
   padding: 20px 0;
   border-bottom: 1px solid silver;
   float:left;
 }
 
-.cuadro #fb-btn {
+.platform-login #fb-btn {
   float:right;
   margin: 20px;
 }

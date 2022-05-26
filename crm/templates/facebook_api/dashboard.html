@@ -77,11 +77,11 @@
         if (isLoggedIn) {
             document.getElementById('logout').style.display = 'block';
             document.getElementById('fb-btn').style.display = 'none';
-            document.getElementById('post-login-data').style.display = 'block';
+            document.getElementById('platform-login').style.display = 'none';
         } else {
             document.getElementById('logout').style.display = 'none';
             document.getElementById('fb-btn').style.display = 'block';
-            document.getElementById('post-login-data').style.display = 'none';
+            document.getElementById('platform-login').style.display = 'block';
         }
     }
 
@@ -95,7 +95,7 @@
 
 </script>
 
-<div class="cuadro">
+<div class="platform-login">
     <h1> Iniciar sesión con Facebook </h1>
     <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
     <fb:login-button id="fb-btn"
