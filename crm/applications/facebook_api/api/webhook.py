@@ -58,10 +58,3 @@ def webhook(request):
 
     else:
         return HttpResponse(status = 404)
-
-
-@api_view(['POST'])
-@permission_classes([]) # No es necesario autenticación
-def test(request):
-    print(request.POST.get('userId'))
-    print(request.POST.get('accessToken'))
