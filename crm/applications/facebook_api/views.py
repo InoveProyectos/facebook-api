@@ -92,7 +92,7 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         username = self.request.user
-        user_obj = User.objects.filter(username = username)
+        user_obj = User.objects.filter(username = username).first()
 
         expired = token_is_expired(user_obj)
 
