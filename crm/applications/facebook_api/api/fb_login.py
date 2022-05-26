@@ -76,4 +76,4 @@ def token_is_expired(user_obj):
         else:
             return False
     else:
-        return False
+        return True

@@ -48,6 +48,8 @@
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
             console.log('Logged in and Authenticated');
+            console.log(accessToken);
+            console.log(userId);
             setElements(true);
 
         } else {
@@ -71,7 +73,7 @@
                 userId: userId,
                 username: document.getElementById('username').value,
             }));
-
+            
             location.reload();
         });
     }
