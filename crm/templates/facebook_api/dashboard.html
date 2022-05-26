@@ -1,0 +1,107 @@
+{% extends 'facebook_api/base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'facebook_api/css/forms.css' %}">
+
+{% endblock head %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<script>
+    let accessToken;
+    let userId;
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '748013059515309',
+            cookie: true,
+            xfbml: true,
+            version: 'v1.0'
+        });
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+            if (response.status === 'connected') {
+                accessToken = response.authResponse.accessToken;
+                userId = response.authResponse.userID;
+                console.log(accessToken);
+                console.log(userId);
+            }
+        });
+
+
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            console.log('Logged in and Authenticated');
+            setElements(true);
+
+        } else {
+            console.log('Not authenticated');
+            setElements(false);
+        }
+    }
+
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+
+            // Enviar un POST a un endpoint que registre las credenciales
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'http://0.0.0.0:8000/facebook/test', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                accessToken: accessToken,
+                userId: userId
+            }));
+
+            location.reload();
+        });
+    }
+
+    function setElements(isLoggedIn) {
+        if (isLoggedIn) {
+            document.getElementById('logout').style.display = 'block';
+            document.getElementById('fb-btn').style.display = 'none';
+            document.getElementById('post-login-data').style.display = 'block';
+        } else {
+            document.getElementById('logout').style.display = 'none';
+            document.getElementById('fb-btn').style.display = 'block';
+            document.getElementById('post-login-data').style.display = 'none';
+        }
+    }
+
+    function logout() {
+        FB.logout(function (response) {
+            setElements(false);
+            // Redirect to index page
+            window.location.href = '/';
+        });
+    }
+
+</script>
+
+<div class="cuadro">
+    <h1> Iniciar sesión con Facebook </h1>
+    <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
+    <fb:login-button id="fb-btn"
+        scope="public_profile,email, pages_manage_posts, pages_messaging, pages_show_list, pages_manage_metadata, pages_manage_engagement, pages_read_engagement"
+        onlogin="checkLoginState();">
+    </fb:login-button>
+</div>
+
+{% endblock %}

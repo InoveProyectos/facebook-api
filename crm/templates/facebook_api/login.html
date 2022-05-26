@@ -1,0 +1,51 @@
+{% extends 'facebook_api/base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'facebook_api/css/forms.css' %}">
+
+{% endblock head %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+<div class="center">
+
+    <h1>Iniciar Sesión</h1>
+
+    <form action="{% url 'login' %}" method="POST">
+        {%csrf_token%}
+        <div class="txt_field">
+        
+            <input type="text" id="username" name="username" required>
+            <span></span>
+            <label>Username</label>
+        
+        </div>
+
+        <div class="txt_field">
+        
+            <input type="password" id="password" name="password"required>
+            <span></span>
+            <label>Password</label>
+      
+        </div>
+
+        <!-- <div class="pass">
+            Forgot Password?
+        </div> -->
+        
+        <input type="submit" value="Login">
+        
+        <div class="signup_link">
+            No estás registrado? <a href="/facebook/signup">Registrarse</a>
+        </div>
+
+    </form>
+
+  </div>
+
+{% endblock content %}

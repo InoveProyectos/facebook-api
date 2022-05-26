@@ -1,0 +1,67 @@
+{% extends 'facebook_api/base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'facebook_api/css/forms.css' %}">
+
+{% endblock head %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+<div class="center">
+    <h1>Registrarse</h1>
+
+    <form method="POST" > 
+        {% csrf_token %} 
+        
+        <div class="txt_field"> 
+            {{form.first_name}} 
+            <span></span>
+            <label>Nombre</label>
+        </div>  
+        
+        <div class="txt_field"> 
+            {{form.last_name}} 
+            <span></span>
+            <label>Apellido</label>
+        </div>  
+        
+        <div class="txt_field"> 
+            {{form.username}}
+            <span></span>
+            <label>Nombre de Usuario</label> 
+        </div> 
+    
+        <div class="txt_field"> 
+            {{form.email}} 
+            <span></span>
+            <label>Mail</label>
+        </div> 
+    
+        <div class="txt_field"> 
+            {{form.password1}}
+            <span></span>
+            <label>Contraseña</label> 
+        </div> 
+    
+        <div class="txt_field"> 
+            {{form.password2}}
+            <span></span>
+            <label>Repetir contraseña</label> 
+        </div> 
+    
+        <br>
+        <input type="submit" value="Register"/>
+        
+        <div class="signup_link">
+            Ya estás registrado? <a href="/facebook/login">Iniciar sesión</a>
+        </div>
+    
+    </form>
+</div>
+
+{% endblock content %}

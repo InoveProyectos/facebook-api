@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% load static %}
+
+    {% block head %}
+
+    {% endblock head %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'facebook_api/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'facebook_api/css/navbar.css' %}">
+    <title> {% block title %} Facebook CRM {% endblock %} </title>
+
+</head>
+
+<body>
+    <header>
+        <a href="/facebook">
+            <img class="logo" src="{% static 'facebook_api/images/logo.svg' %}" alt="logo">
+        </a>
+        
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/facebook/dashboard"> Dashboard </a></li>
+                
+                {% if user.is_authenticated %}
+                    <li><a href="/facebook/logout"> Cerrar Sesión </a></li>
+                
+                    {% if user.is_superuser %}
+                        <li><a href="/admin"> Administrador </a></li>
+                    {% endif %}
+                
+                {% else %}
+                    <li><a href="/facebook/login"> Ingresar </a></li>
+                    <li><a href="/facebook/signup"> Registrarse </a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </header>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+
+</html>

@@ -1,34 +1,61 @@
 version: '3.3'
 
-networks:
-  isolation-network:
-    name: isolation-network
-    driver: bridge
-
 services:
-  facebook-api:
-    tty: true
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+  db:  # Postgres Database
+    image: postgres:13.2
+    container_name: inove_database
+    restart: always
 
-    image: facebook-api
-    hostname: inove
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_DB: inove
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: '0000'
+
+    ports:
+      # Puerdo por defecto de Postgres
+      - 5432:5432
+  
+  adminer:
+    # Una interfaz para monitoreo y gestión de nuestra base de datos.
+    # Se puede acceder a ella en localhost:8080
+    container_name: inove_adminer
+    image: adminer:4.8.0
+    restart: always
     
     ports:
-      - "8051:5000"
+      - 8080:8080
 
-    expose:
-      - "5000"
+    # Antes de iniciar este servicio, ya debe haber iniciado el servicio "db"  
+    depends_on: ['db']
 
-    env_file:
-      - api/.env
+  facebook-api:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile  
 
-    networks: 
-      - isolation-network
-
+    image: facebook-api 
     container_name: facebook-api
+
+    # Comportamiento ante fallos y al iniciar el sistema:
+    restart: always
+    
     volumes:
+      # Source code directory:
       - type: bind
         source: .
         target: /opt/back_end
+
+    ports:
+        - "8000:8000"
+
+    # Control de consola:
+    stdin_open: true
+    tty: true
+
+    # Antes de iniciar este servicio, ya debe haber iniciado el servicio "db"  
+    depends_on: ["db"]
+    
+    command: python crm/manage.py runserver 0.0.0.0:8000
