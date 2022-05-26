@@ -34,7 +34,7 @@ def credentials_status(request):
             
             credential_obj.save()
 
-        elif token_expired(credential_obj.access_token):
+        elif token_is_expired(credential_obj.access_token):
             # Si el token ya venció, actualizarlo
             long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
             credential_obj.access_token = long_lived_token
@@ -63,11 +63,10 @@ def get_long_lived_token(app_id, app_secret, user_access_token):
     return r.json()['access_token']
 
 
-def token_expired(username):
+def token_is_expired(user_obj):
     '''
     Verifica si el token de usuario se venció
     '''
-    user_obj = User.objects.get(username = username)
     credential_obj = Credential.objects.filter(user_id = user_obj).first()
     
     if credential_obj:

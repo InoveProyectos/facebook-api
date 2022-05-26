@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 # Functions
-from applications.facebook_api.api.fb_login import token_expired
+from applications.facebook_api.api.fb_login import token_is_expired
 
 # NOTE: Registro e inicio de sesión
 
@@ -87,3 +87,16 @@ class DashboardView(TemplateView):
     '''
     
     template_name = 'facebook_api/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        username = self.request.user
+        user_obj = User.objects.filter(username = username)
+
+        expired = token_is_expired(user_obj)
+
+        context['expired'] = expired
+        context['user'] = user_obj
+
+        return super().get_context_data(**kwargs)

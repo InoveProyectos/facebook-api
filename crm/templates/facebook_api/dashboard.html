@@ -100,7 +100,7 @@
 
     <h1 id="username" value=" {{ user.username }} "> {{ user.username }} </h1>
     
-    {% if token_expired(user.username) %}
+    {% if expired %}
         <div class="platform-login">
             <h2> Iniciar sesión con Facebook </h2>
             <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
