@@ -94,9 +94,6 @@ class DashboardView(TemplateView):
         username = self.request.user
         user_obj = User.objects.filter(username = username).first()
 
-        valid_access_token = token_is_valid(user_obj)
-
-        context['valid_access_token'] = valid_access_token
         context['user'] = user_obj
 
         return context
