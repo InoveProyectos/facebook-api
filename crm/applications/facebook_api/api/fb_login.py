@@ -37,7 +37,7 @@ def credentials_status(request):
             
             credential_obj.save()
 
-        elif token_is_expired(credential_obj.access_token):
+        elif token_is_valid(credential_obj.access_token):
             # Si el token ya venció, actualizarlo
             long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
             credential_obj.access_token = long_lived_token
@@ -66,18 +66,18 @@ def get_long_lived_token(app_id, app_secret, user_access_token):
     return r.json()['access_token']
 
 
-def token_is_expired(user_obj):
+def token_is_valid(user_obj):
     '''
-    Verifica si el token de usuario se venció
+    Verifica si el token de usuario sigue siendo valido
     '''
     credential_obj = Credential.objects.filter(user_id = user_obj).first()
+    token = credential_obj.access_token
 
-    if credential_obj:
-        start_time = credential_obj.created_at.replace(tzinfo=utc)
-        end_time = datetime.now().replace(tzinfo=utc)
-        if start_time + timedelta(days=credential_obj.expires_in) <= end_time:
-            return True
-        else:
-            return False
-    else:
-        return True
+    url = 'https://graph.facebook.com/debug_token'
+    params = {
+        'input_token': token,
+    }
+
+    response = requests.get(url, params=params)
+
+    return bool((response.json()['data']['is_valid']).capitalize())
