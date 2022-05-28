@@ -12,7 +12,7 @@ from pytz import timezone
 
 # facebook sdk
 import facebook as sdk
-import requests_tools
+import crm.applications.facebook_api.tools.requests_tools as requests_tools
 
 class Facebook:
     def __init__(self, access_token : str, page_id : str):
