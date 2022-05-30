@@ -64,6 +64,11 @@
 
     function checkLoginState() {
 
+        
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+    
         // Enviar un POST a un endpoint que registre las credenciales
         var xhr = new XMLHttpRequest();
         xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
@@ -75,14 +80,11 @@
             userId: userId,
             username: '{{ user.username }}',
         }));
-
+    
         console.log("Request sent");
 
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-
-            location.reload();
-        });
+        location.reload();
+    
     }
 
     function setElements(isLoggedIn) {
