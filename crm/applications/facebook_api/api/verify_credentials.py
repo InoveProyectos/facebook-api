@@ -23,6 +23,7 @@ def verify_user_credentials(request):
     access_token = request.POST.get('accessToken')
     username = request.POST.get('username')
     OKGREEN = '\033[92m'
+    print(OKGREEN, fb_id, access_token, username, '\033[0m')
 
     if not(fb_id and access_token and username):        
         print(OKGREEN + "ME LLEGÓ TODO COMO EL ORTO FLACO QUE HACES? MANDAME LO QUE TE PIDO POR FAVOR" + '\033[0m')
