@@ -16,30 +16,22 @@ import sys, os
 utc=pytz.UTC
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([])
 def verify_user_credentials(request):
     data = request._data
-    
     fb_id = data.get('userId')
     access_token = data.get('accessToken')
     username = data.get('username')
-
-    print('\033[92m', fb_id + '\n', access_token + '\n', username, '\033[0m')
 
     if not(fb_id and access_token and username):   
         print('No se recibieron todos los datos necesarios')    
         return HttpResponse(status = 400, content = 'Bad request')
 
-    print('\033[92m' + "Todos los parámetros llegaron correctamente" + '\033[0m')
-
     try:
 
         user_obj = User.objects.get(username = username)
         
-        print('\033[92m user id:', user_obj.id)
-        print('\033[92m user obj:', user_obj)
-        
-        credential_obj = Credential.objects.get(user = user_obj.id)  
+        credential_obj = Credential.objects.filter(user = user_obj.id).first()  
 
         if not credential_obj:
 

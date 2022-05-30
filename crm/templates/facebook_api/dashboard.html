@@ -76,9 +76,9 @@
 
         xhr.send(JSON.stringify({
             csrfmiddlewaretoken: "{{ csrf_token }}", 
-            accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
-            userId: "5216986191659271",
-            username: "juliansalinas"
+            accessToken: accessToken,
+            userId: userId,
+            username: "{{ user.username }}"
         }));
 
         console.log("Request sent");

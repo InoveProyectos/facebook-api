@@ -38,7 +38,6 @@ SECRET_KEY = get_env('SECRET_KEY')
 DEBUG = True if get_env('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'inove-facebook-api.herokuapp.com']
-CSRF_TRUSTED_ORIGINS = ['inove-facebook-api.herokuapp.com', 'inove-facebook-api.herokuapp.com/dashboard']
 
 # Application definition
 
