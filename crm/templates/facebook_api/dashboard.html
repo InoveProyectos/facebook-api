@@ -49,6 +49,8 @@
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
             console.log('Logged in and Authenticated');
+            console.log('Access token', response.authResponse.accessToken);
+            console.log('User ID:', response.authResponse.userID);
             setElements(true);
 
         } else {
