@@ -19,14 +19,16 @@ utc=pytz.UTC
 @permission_classes([IsAuthenticated])
 def verify_user_credentials(request):
     data = request._data
+    
     fb_id = data.get('userId')
     access_token = data.get('accessToken')
     username = data.get('username')
     OKGREEN = '\033[92m'
-    print(OKGREEN, fb_id, access_token, username, '\033[0m')
 
-    if not(fb_id and access_token and username):        
-        print(OKGREEN + "ME LLEGÓ TODO COMO EL ORTO FLACO QUE HACES? MANDAME LO QUE TE PIDO POR FAVOR" + '\033[0m')
+    print(OKGREEN, fb_id + '\n', access_token + '\n', username + '\n', '\033[0m')
+
+    if not(fb_id and access_token and username):   
+        print('No se recibieron todos los datos necesarios')    
         return HttpResponse(status = 400, content = 'Bad request')
 
     print(OKGREEN + "Todos los parámetros llegaron correctamente" + '\033[0m')
