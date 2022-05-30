@@ -51,17 +51,6 @@
             console.log('Logged in and Authenticated');
             console.log('Access token', response.authResponse.accessToken);
             console.log('User ID:', response.authResponse.userID);
-            setElements(true);
-
-        } else {
-            console.log('Not authenticated');
-            setElements(false);
-        }
-    }
-
-    function checkLoginState() {
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
 
             // Enviar un POST a un endpoint que registre las credenciales
             var xhr = new XMLHttpRequest();
@@ -74,7 +63,19 @@
             }));
 
             console.log("Request sent");
-            
+
+            setElements(true);
+
+        } else {
+            console.log('Not authenticated');
+            setElements(false);
+        }
+    }
+
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+
             location.reload();
         });
     }
@@ -101,55 +102,58 @@
 
 </script>
 
-    <br>
-    <h1 id="username" value="{{ user.username }}"> Iniciaste sesión como {{ user.username }} </h1>
-    <br>
+<br>
+<h1 id="username" value="{{ user.username }}"> Iniciaste sesión como {{ user.username }} </h1>
+<br>
 
-    <div id="platform-login" class="platform-login">
-        
-        <div class="platform-login title">
-            <h1> Iniciar sesión con Facebook </h1>
-        </div>
+<div id="platform-login" class="platform-login">
 
-        <div class ="platform-login description">
-            <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
-        </div>
-
-        <div class="platform-login action">
-            <a id="logout" onclick="logout()" href="https://inove-facebook-api.herokuapp.com/facebook/dashboard"> Cerrar sesión de Facebook </a>
-            
-            <fb:login-button id="fb-btn"
-                scope="public_profile,email, pages_manage_posts, pages_messaging, pages_show_list, pages_manage_metadata, pages_manage_engagement, pages_read_engagement"
-                onlogin="checkLoginState();">
-            </fb:login-button>
-        
-        </div>
+    <div class="platform-login title">
+        <h1> Iniciar sesión con Facebook </h1>
     </div>
 
-    {% if validated %}
-    <div class="functionalities" id="functionalities">
-        
-        {% for page in pages %}
-        <div class="page" id="page">
-
-            <div class="page-picture">
-                <img src=" {{ page.picture }} ">
-            </div>
-            
-            <div class="page-name">
-                <h2> {{ page.name }} </h2>
-            </div>
-
-            <div class="manage">
-                <div class="vertical-center-button">
-                    <button class="manage-btn" onclick="window.location.href='http:\/\/0.0.0.0:8000/facebook/dashboard/{{page.id}}'"> Administrar </button>
-                </div>
-            </div>
-
-        </div>  
+    <div class="platform-login description">
+        <p> De esta forma podrás manejar tus páginas usando nuestra aplicación.</p>
     </div>
-        {% endfor %}
-    {% endif %}
+
+    <div class="platform-login action">
+        <a id="logout" onclick="logout()" href="https://inove-facebook-api.herokuapp.com/facebook/dashboard"> Cerrar
+            sesión de Facebook </a>
+
+        <fb:login-button id="fb-btn"
+            scope="public_profile,email, pages_manage_posts, pages_messaging, pages_show_list, pages_manage_metadata, pages_manage_engagement, pages_read_engagement"
+            onlogin="checkLoginState();">
+        </fb:login-button>
+
+    </div>
+</div>
+
+{% if validated %}
+<div class="functionalities" id="functionalities">
+
+    {% for page in pages %}
+    <div class="page" id="page">
+
+        <div class="page-picture">
+            <img src=" {{ page.picture }} ">
+        </div>
+
+        <div class="page-name">
+            <h2> {{ page.name }} </h2>
+        </div>
+
+        <div class="manage">
+            <div class="vertical-center-button">
+                <button class="manage-btn"
+                    onclick="window.location.href='http:\/\/0.0.0.0:8000/facebook/dashboard/{{page.id}}'"> Administrar
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 
 
 {% endblock %}
