@@ -66,32 +66,27 @@
     }
 
     function checkLoginState() {
-
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });
-
+        
         // Enviar un POST a un endpoint que registre las credenciales
-        $.ajax({
-            type: "POST",
-            url: "https://inove-facebook-api.herokuapp.com/facebook/credentials/post",
-            data: {
-                csrfmiddlewaretoken: "{{ csrf_token }}",   // < here 
-                accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
-                userId: "5216986191659271",
-                username: "juliansalinas"
+        var xhr = new XMLHttpRequest();
+        
+        xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
-            },
-            success: function () {
-                alert("pocohuntus")
-                console.log("prototype")
-            }
-        })
+        xhr.send(JSON.stringify({
+            csrfmiddlewaretoken: "{{ csrf_token }}", 
+            accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
+            userId: "5216986191659271",
+            username: "juliansalinas"
+        }));
 
         console.log("Request sent");
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
 
-        location.reload();
-
+            location.reload();
+        });
     }
 
     function setElements(isLoggedIn) {
