@@ -49,6 +49,8 @@
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
             console.log('Logged in and Authenticated');
+            accessToken = response.authResponse.accessToken;
+            userId = response.authResponse.userID;
             console.log('Access token', response.authResponse.accessToken);
             console.log('User ID:', response.authResponse.userID);
 
@@ -71,10 +73,11 @@
             crsfmiddlewaretoken: '{{ csrf_token }}',
             accessToken: accessToken,
             userId: userId,
-            username: document.getElementById('username').value,
+            username: '{{ user.username }}',
         }));
 
         console.log("Request sent");
+
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
 
