@@ -12,4 +12,4 @@ class CredentialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Credential
-        fields = ('id', 'user', 'access_token', 'expires_in', 'created_at', 'updated_at')
+        fields = ('user', 'facebook_id', 'access_token')

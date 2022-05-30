@@ -6,13 +6,13 @@ from applications.facebook_api.models import Credential
 
 @admin.register(Credential)
 class CredentialAdmin(admin.ModelAdmin):
-    list_display = ('user', 'access_token', 'expires_in', 'created_at')
+    list_display = ('id', 'user', 'facebook_id', 'access_token')
 
-    search_fields = ['user', 'access_token', 'expires_in', 'created_at']
+    search_fields = ['id', 'user', 'facebook_id', 'access_token']
 
 
     fieldsets = (
         (None, {
-            'fields': ('user', 'access_token', 'expires_in', 'created_at')
+            'fields': ('user', 'facebook_id', 'access_token')
         }),
     )

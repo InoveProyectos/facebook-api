@@ -10,16 +10,14 @@ class Credential(models.Model):
     '''
     Tabla que contiene las credenciales de un usuario de Facebook
     '''
-    id = models.AutoField(db_column='ID', primary_key=True)
+    id = models.AutoField(db_column='Credential ID', primary_key=True)
 
     user = models.ForeignKey(User, verbose_name="User",
                              on_delete=models.DO_NOTHING, default=1, blank=True)
+
+    facebook_id = models.CharField(db_column='Facebook ID', max_length=500, blank = True)
     
-    access_token = models.CharField(max_length=255)
-    
-    expires_in = models.IntegerField()
-    
-    created_at = models.DateTimeField(default = django.utils.timezone.now())
+    access_token = models.CharField(db_column='Access Token', max_length=500, blank = True)
     
     class Meta:
         db_table = 'facebook_api_credentials'
