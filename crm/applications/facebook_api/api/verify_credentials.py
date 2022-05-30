@@ -16,7 +16,7 @@ import pytz
 utc=pytz.UTC
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([])
 def verify_user_credentials(request):
     fb_id = request.POST.get('userId')
     access_token = request.POST.get('accessToken')

@@ -65,7 +65,7 @@
 
             // Enviar un POST a un endpoint que registre las credenciales
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/credentials/verify-credentials', true);
+            xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 accessToken: accessToken,
