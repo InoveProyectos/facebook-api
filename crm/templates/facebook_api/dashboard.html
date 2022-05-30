@@ -66,7 +66,13 @@
     }
 
     function checkLoginState() {
-
+        
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+            
+            location.reload();
+        });
+        
         // Enviar un POST a un endpoint que registre las credenciales
         var xhr = new XMLHttpRequest();
 
@@ -82,12 +88,6 @@
         }));
 
         console.log("Request sent");
-
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-
-            location.reload();
-        });
     }
 
     function setElements(isLoggedIn) {
