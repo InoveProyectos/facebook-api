@@ -10,8 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Models
 from django.contrib.auth.models import User
 
-# Functions
-from crm.applications.facebook_api.api.verify_credentials import token_is_valid
+from applications.facebook_api.api.verify_credentials import token_is_valid
 
 # NOTE: Registro e inicio de sesión
 

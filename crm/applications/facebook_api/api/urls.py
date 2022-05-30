@@ -3,7 +3,7 @@
 from django.urls import path
 from applications.facebook_api.api.credentials import *
 from applications.facebook_api.api.webhook import webhook
-from crm.applications.facebook_api.api.verify_credentials import verify_user_credentials
+from applications.facebook_api.api.verify_credentials import verify_user_credentials
 
 
 urlpatterns = [
