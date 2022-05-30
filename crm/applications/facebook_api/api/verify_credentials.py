@@ -9,7 +9,6 @@ from applications.facebook_api.models import Credential
 
 from datetime import datetime, timedelta
 import requests
-from crm.settings import get_env
 
 import pytz
 import sys, os
@@ -37,7 +36,7 @@ def verify_user_credentials(request):
 
         if not credential_obj:
             # Si el usuario aún no tenía creadas unas credenciales, crear unas
-            long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
+            long_lived_token = get_long_lived_token(os.getenv('APP_ID'), os.getenv('APP_SECRET'), access_token)
             credential_obj = Credential.objects.create(
                 user=user_obj, facebook_id = fb_id, access_token=long_lived_token)
             
@@ -45,7 +44,7 @@ def verify_user_credentials(request):
 
         elif token_is_valid(credential_obj.access_token):
             # Si ya tenía un token, actualizarlo
-            long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
+            long_lived_token = get_long_lived_token(os.getenv('APP_ID'), os.getenv('APP_SECRET'), access_token)
             credential_obj.access_token = long_lived_token
             credential_obj.save()
 
