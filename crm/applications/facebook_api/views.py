@@ -91,9 +91,6 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        username = self.request.user
-        user_obj = User.objects.filter(username = username).first()
-
-        context['user'] = user_obj
+        user_obj = User.objects.get(username = self.request.user)
 
         return context

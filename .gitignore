@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Migrations
+crm/facebook_api/migrations/
+
 # C extensions
 *.so
 

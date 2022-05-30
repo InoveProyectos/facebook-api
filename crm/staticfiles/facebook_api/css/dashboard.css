@@ -1,0 +1,108 @@
+/* --------------------------------------------------------------------------
+------------------------------ Cuadro de login ------------------------------ 
+----------------------------------------------------------------------------*/
+
+#username { 
+    margin: 10px 10px;
+}
+
+.platform-login {
+    margin: 0 auto;
+    padding: 5px;
+
+    display: grid;
+    grid-template-areas: 'title title'
+    'description action';
+}
+
+#platform-login {
+    width: 97%;
+    padding-top: 10px;
+    padding-bottom: 40px;
+
+    border-radius: 10px;
+    border: 1px solid #4e7de2;
+
+}
+
+.title {
+    grid-area: title;
+    justify-content: left;
+    padding: 10px;
+    color: #4e7de2;
+}
+
+.description {
+    color: #4e7de2;
+    grid-area: description;
+    float:left;
+    font-size: 20px;
+    justify-content: left;
+    padding-left: 20px;
+}
+
+.action {
+    grid-area: action;
+    float:right;
+    justify-content: right;
+}
+
+/* --------------------------------------------------------------------------
+---------------------------- Páginas del usuario----------------------------- 
+----------------------------------------------------------------------------*/
+
+.functionalities {
+    margin: 30px;;
+}
+
+#page {
+    width: 100%;
+    height: 100%;
+
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #666666;
+
+    float: left;
+    background-color: whitesmoke;
+
+}
+
+.page {
+    display: grid;
+    width: 80%;
+    margin: 15 15;
+    grid-template-areas: 'photo name manage-button';
+    grid-template-columns: 5% 85% 10%;
+}
+
+.page-picture {
+    grid-area: photo;
+    justify-content: left;
+    padding: 10px;
+}
+
+.page-name {
+    grid-area: name;
+    justify-content: left;
+    float: left;
+    line-height: 100%;
+    vertical-align:middle;
+}
+
+.page-name h2 {
+    /* uso esto para alinear verticalmente sin usar un div extra */
+    padding-top: 27px;
+}
+
+.manage {
+    grid-area: manage-button;
+    justify-content: right;
+    float: right;
+    line-height: 100%;
+}
+
+.manage button {
+    justify-content: center;
+    margin: 15px;
+}
