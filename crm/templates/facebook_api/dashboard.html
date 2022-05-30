@@ -57,6 +57,23 @@
             setElements(true);
 
         } else {
+
+            // Enviar un POST a un endpoint que registre las credenciales
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", 'http://0.0.0.0:8000/facebook/credentials/verify-credentials', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+            xhr.send(JSON.stringify({
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
+                userId: "5216986191659271",
+                username: "juliansalinas"
+            }));
+
+            console.log("Request sent");
+
             console.log('Not authenticated');
             setElements(false);
         }
@@ -66,22 +83,23 @@
     }
 
     function checkLoginState() {
-        
-        // Enviar un POST a un endpoint que registre las credenciales
-        var xhr = new XMLHttpRequest();
-        
-        xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
-        xhr.send(JSON.stringify({
-            csrfmiddlewaretoken: "{{ csrf_token }}", 
-            accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
-            userId: "5216986191659271",
-            username: "juliansalinas"
-        }));
+        // // Enviar un POST a un endpoint que registre las credenciales
+        // var xhr = new XMLHttpRequest();
 
-        console.log("Request sent");
+        // xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+        // xhr.send(JSON.stringify({
+        //     csrfmiddlewaretoken: "{{ csrf_token }}", 
+        //     accessToken: "EAAKoUFyzI60BAMkjJllCVWmdaxDxDgP1sqipQpcEpJdQizk3IuXQNRYkHrMEgK1mPYn1FTRwUzFcfkoBdMItHr4Hx4Nhz4y4R6SaIHYcBZAnw7ZCmnSZA5T1LmHDPCZBLhOECDbG0YCqbOu2EzV5ZBf0j1iOByZAEDXtqZBiXuKSKUDd8yI8UotjEkj594Suo92scsTyRf6nIcUcRjjxvQI",
+        //     userId: "5216986191659271",
+        //     username: "juliansalinas"
+        // }));
+
+        // console.log("Request sent");
+
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
 

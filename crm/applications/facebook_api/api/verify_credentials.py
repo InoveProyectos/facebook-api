@@ -16,15 +16,12 @@ import sys, os
 utc=pytz.UTC
 
 @api_view(['POST'])
-@permission_classes([])
+@permission_classes([IsAuthenticated])
 def verify_user_credentials(request):
-    print(request.POST)
-    print(request.body)
-    print(request.get_json())
-    print(request.json)
-    fb_id = request.POST.get('userId')
-    access_token = request.POST.get('accessToken')
-    username = request.POST.get('username')
+    data = request._data
+    fb_id = data.get('userId')
+    access_token = data.get('accessToken')
+    username = data.get('username')
     OKGREEN = '\033[92m'
     print(OKGREEN, fb_id, access_token, username, '\033[0m')
 
