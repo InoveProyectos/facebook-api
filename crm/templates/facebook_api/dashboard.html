@@ -30,8 +30,8 @@
             if (response.status === 'connected') {
                 accessToken = response.authResponse.accessToken;
                 userId = response.authResponse.userID;
-                console.log(accessToken);
-                console.log(userId);
+                console.log("Access token", accessToken);
+                console.log("User ID:", userId);
             }
         });
 
@@ -79,13 +79,11 @@
         if (isLoggedIn) {
             document.getElementById('logout').style.display = 'block';
             document.getElementById('fb-btn').style.display = 'none';
-            document.getElementById('platform-login').style.display = 'none';
             document.getElementById('functionalities').style.display = 'block';
         } else {
             document.getElementById('logout').style.display = 'none';
             document.getElementById('fb-btn').style.display = 'block';
-            document.getElementById('platform-login').style.display = 'block';
-            document.getElementById('functionalities').style.display = 'block';
+            document.getElementById('functionalities').style.display = 'none';
         }
     }
 
