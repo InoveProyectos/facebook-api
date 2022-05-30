@@ -52,18 +52,6 @@
             console.log('Access token', response.authResponse.accessToken);
             console.log('User ID:', response.authResponse.userID);
 
-            // Enviar un POST a un endpoint que registre las credenciales
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({
-                accessToken: accessToken,
-                userId: userId,
-                username: document.getElementById('username').value,
-            }));
-
-            console.log("Request sent");
-
             setElements(true);
 
         } else {
@@ -73,6 +61,18 @@
     }
 
     function checkLoginState() {
+        
+        // Enviar un POST a un endpoint que registre las credenciales
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            accessToken: accessToken,
+            userId: userId,
+            username: document.getElementById('username').value,
+        }));
+
+        console.log("Request sent");
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
 

@@ -53,11 +53,8 @@ def verify_user_credentials(request):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
+        return HttpResponse(status = 400, content = f'Bad request: {e}')
     
-    # except Exception as e:
-    #     print('Error: ' + str(e))
-    #     return HttpResponse(status = 400, content = f'Bad request: {e}')
-
     return HttpResponse(status = 200, content = 'OK')
 
 
