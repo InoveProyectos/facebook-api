@@ -12,17 +12,19 @@ import requests
 from crm.settings import get_env
 
 import pytz
+import sys, os
 
 utc=pytz.UTC
 
 @api_view(['POST'])
 @permission_classes([])
 def verify_user_credentials(request):
+    print(request.POST)
     fb_id = request.POST.get('userId')
     access_token = request.POST.get('accessToken')
     username = request.POST.get('username')
 
-    if not(fb_id and access_token and username):
+    if not(fb_id and access_token and username):        
         return HttpResponse(status = 400, content = 'Bad request')
 
     try:
@@ -31,9 +33,10 @@ def verify_user_credentials(request):
 
         if not credential_obj:
             # Si el usuario aún no tenía creadas unas credenciales, crear unas
-            long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
+            # long_lived_token = get_long_lived_token(get_env('APP_ID'), get_env('APP_SECRET'), access_token)
+            long_lived_token = get_long_lived_token('748013059515309', '09ca00006bdfee39a922e65fe880810e', access_token)
             credential_obj = Credential.objects.create(
-                user=user_obj, access_token=long_lived_token, expires_in=50, created_at=datetime.now())
+                user=user_obj, facebook_id = fb_id, access_token=long_lived_token)
             
             credential_obj.save()
 
@@ -44,7 +47,13 @@ def verify_user_credentials(request):
             credential_obj.save()
 
     except Exception as e:
-        return HttpResponse(status = 400, content = f'Bad request: {e}')
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+    
+    # except Exception as e:
+    #     print('Error: ' + str(e))
+    #     return HttpResponse(status = 400, content = f'Bad request: {e}')
 
     return HttpResponse(status = 200, content = 'OK')
 
