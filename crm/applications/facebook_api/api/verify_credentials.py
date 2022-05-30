@@ -33,14 +33,16 @@ def verify_user_credentials(request):
     print('\033[92m' + "Todos los parámetros llegaron correctamente" + '\033[0m')
 
     try:
+
         user_obj = User.objects.get(username = username)
-        credential_obj = Credential.objects.filter(user_id = user_obj).first()  
+        
+        print('\033[92m user id:', user_obj.id)
+        print('\033[92m user obj:', user_obj)
+        
+        credential_obj = Credential.objects.get(user = user_obj.id)  
 
         if not credential_obj:
-            # Si el usuario aún no tenía creadas unas credenciales, crear unas
-            print('\033[92m', os.getenv('APP_ID'))
-            print('\033[92m', os.getenv('APP_SECRET'))
-            
+
             long_lived_token = get_long_lived_token(str(os.getenv('APP_ID')), str(os.getenv('APP_SECRET')), access_token)
 
             credential_obj = Credential.objects.create(
@@ -48,8 +50,7 @@ def verify_user_credentials(request):
             
             credential_obj.save()
 
-        elif token_is_valid(credential_obj.access_token):
-            # Si ya tenía un token, actualizarlo
+        else:
             long_lived_token = get_long_lived_token(os.getenv('APP_ID'), os.getenv('APP_SECRET'), access_token)
             credential_obj.access_token = long_lived_token
             credential_obj.save()
