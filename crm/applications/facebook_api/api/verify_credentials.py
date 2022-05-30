@@ -19,6 +19,9 @@ utc=pytz.UTC
 @permission_classes([])
 def verify_user_credentials(request):
     print(request.POST)
+    print(request.body)
+    print(request.get_json())
+    print(request.json)
     fb_id = request.POST.get('userId')
     access_token = request.POST.get('accessToken')
     username = request.POST.get('username')
