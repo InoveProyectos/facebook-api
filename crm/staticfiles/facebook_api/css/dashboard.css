@@ -7,7 +7,7 @@
 }
 
 .platform-login {
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 5px;
 
     display: grid;
@@ -17,6 +17,8 @@
 
 #platform-login {
     width: 97%;
+    margin-left: 10px;
+    margin-right: 10px;
     padding-top: 10px;
     padding-bottom: 40px;
 
@@ -38,7 +40,7 @@
     float:left;
     font-size: 20px;
     justify-content: left;
-    padding-left: 20px;
+    padding-left: auto;
 }
 
 .action {
