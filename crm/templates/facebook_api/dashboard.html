@@ -60,32 +60,38 @@
             console.log('Not authenticated');
             setElements(false);
         }
+
+
+        console.log("request sent");
     }
 
     function checkLoginState() {
 
-        location.reload();
-        
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
         });
-        
+
         // Enviar un POST a un endpoint que registre las credenciales
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-        xhr.send(JSON.stringify({
-            crsfmiddlewaretoken: '{{ csrf_token }}',
-            accessToken: accessToken,
-            userId: userId,
-            username: '{{ user.username }}',
-        }));
-        
+        $.ajax({
+            type: "POST",
+            url: "https://inove-facebook-api.herokuapp.com/facebook/credentials/post",
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",   // < here 
+                accessToken: "test-at",
+                userId: "test-user-id",
+                username: "test-username"
+
+            },
+            success: function () {
+                alert("pocohuntus")
+                console.log("prototype")
+            }
+        })
+
         console.log("Request sent");
-        
+
         location.reload();
-    
+
     }
 
     function setElements(isLoggedIn) {

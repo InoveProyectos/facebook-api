@@ -33,7 +33,7 @@ def verify_user_credentials(request):
 
     try:
         user_obj = User.objects.get(username = username)
-        credential_obj = Credential.objects.filter(user_id = user_obj).first()
+        credential_obj = Credential.objects.filter(user_id = user_obj).first()  
 
         if not credential_obj:
             # Si el usuario aún no tenía creadas unas credenciales, crear unas
