@@ -23,15 +23,14 @@ def verify_user_credentials(request):
     fb_id = data.get('userId')
     access_token = data.get('accessToken')
     username = data.get('username')
-    OKGREEN = '\033[92m'
 
-    print(OKGREEN, fb_id + '\n', access_token + '\n', username + '\n', '\033[0m')
+    print('\033[92m', fb_id + '\n', access_token + '\n', username, '\033[0m')
 
     if not(fb_id and access_token and username):   
         print('No se recibieron todos los datos necesarios')    
         return HttpResponse(status = 400, content = 'Bad request')
 
-    print(OKGREEN + "Todos los parámetros llegaron correctamente" + '\033[0m')
+    print('\033[92m' + "Todos los parámetros llegaron correctamente" + '\033[0m')
 
     try:
         user_obj = User.objects.get(username = username)
@@ -39,7 +38,11 @@ def verify_user_credentials(request):
 
         if not credential_obj:
             # Si el usuario aún no tenía creadas unas credenciales, crear unas
-            long_lived_token = get_long_lived_token(os.getenv('APP_ID'), os.getenv('APP_SECRET'), access_token)
+            print('\033[92m', os.getenv('APP_ID'))
+            print('\033[92m', os.getenv('APP_SECRET'))
+            
+            long_lived_token = get_long_lived_token(str(os.getenv('APP_ID')), str(os.getenv('APP_SECRET')), access_token)
+
             credential_obj = Credential.objects.create(
                 user=user_obj, facebook_id = fb_id, access_token=long_lived_token)
             
