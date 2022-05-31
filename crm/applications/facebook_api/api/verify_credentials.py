@@ -56,7 +56,7 @@ def verify_user_credentials(request):
     return HttpResponse(status = 200, content = 'OK')
 
 
-def get_long_lived_token(app_id, app_secret, user_access_token):
+def get_long_lived_token(user_access_token):
     '''
     Genera un access token de larga duración (50 días)
     '''
@@ -64,20 +64,20 @@ def get_long_lived_token(app_id, app_secret, user_access_token):
     
     params = {
         'grant_type': 'fb_exchange_token',
-        'client_id': app_id,
-        'client_secret': app_secret,
+        'client_id': str(os.getenv('app_id')),
+        'client_secret': str(os.getenv('app_secret')),
         'fb_exchange_token': user_access_token
     }
 
-    r = requests.get(url, params=params)
-    return r.json()['access_token']
+    response = requests.get(url, params=params)
+    return response.json()['access_token']
 
 
-def token_is_valid(user_obj):
+def token_is_valid(user_id):
     '''
     Verifica si el token de usuario sigue siendo valido
     '''
-    credential_obj = Credential.objects.filter(user_id = user_obj).first()
+    credential_obj = Credential.objects.filter(user = user_id).first()
 
     if not credential_obj:
         return False

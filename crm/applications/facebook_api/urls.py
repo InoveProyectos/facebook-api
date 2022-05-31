@@ -26,6 +26,6 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),  # Index view
     
     path('dashboard', login_required(DashboardView.as_view()), name='dashboard'), 
-
+    path('admin-page', login_required(AdminPageView.as_view()), name='admin-page'), 
     
 ]

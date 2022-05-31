@@ -18,6 +18,6 @@ urlpatterns = [
     path('webhook/', webhook),
 
     # NOTE: APIs personalizadas
-    path('credentials/verify-credentials', verify_user_credentials)
+    path('credentials/verify-credentials', verify_user_credentials, name = 'credentials/verify-credentials')
 
 ]
