@@ -12,10 +12,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from applications.facebook_api.models import Credential
 
-from applications.facebook_api.api.verify_credentials import token_is_valid
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.FacebookPage import FacebookPage
-from applications.facebook_api.classes.Facebook import Facebook
 
 from django.http import HttpResponse
 
