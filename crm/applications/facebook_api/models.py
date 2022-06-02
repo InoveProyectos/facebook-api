@@ -45,3 +45,5 @@ class Page(models.Model):
     picture = models.CharField(verbose_name = 'Facebook Page Picture', max_length=500, blank = True)
 
     posts_respondidos = models.IntegerField(verbose_name = 'Posts Respondidos', default=0)
+
+    mensajes_respondidos = models.IntegerField(verbose_name = 'Mensajes Respondidos', default=0)

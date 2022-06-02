@@ -204,6 +204,10 @@
                             {% endfor %}
                         </select>
 
+                        <input type="hidden" name="post_id" value="{{ comment.id }}">
+                        <input type="hidden" name="page_id" value="{{ page.id }}">
+                        <input type="hidden" name="access_token" value="{{ page.access_token }}">
+
                         <input type="submit" value="Responder">
 
                     </form>
@@ -238,6 +242,10 @@
                         <option value="{{ option.description }}"> {% option.name %} </option>
                         {% endfor %}
                     </select>
+
+                    <input type="hidden" name="post_id" value="{{ comment.id }}">
+                    <input type="hidden" name="page_id" value="{{ page.id }}">
+                    <input type="hidden" name="access_token" value="{{ page.access_token }}">
 
                     <input type="submit" value="Responder">
 

@@ -13,6 +13,7 @@ from applications.facebook_api.models import Credential, Page
 
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.FacebookPage import FacebookPage
+from applications.facebook_api.classes.Facebook import Facebook
 from applications.facebook_api.tools.credentials_tools import token_is_valid
 
 from django.http import HttpResponse
@@ -150,18 +151,25 @@ class AdminPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        page_id = kwargs['id']
+        try: 
+            page_id = kwargs['id']
 
-        user = User.objects.get(username = self.request.user)
-        credential = Credential.objects.get(user = user.id)
-        page = Page.objects.get(page_id = page_id)
+            user = User.objects.get(username = self.request.user)
+            credential = Credential.objects.get(user = user.id)
+            page = Page.objects.get(page_id = page_id)
 
-        fb_user = FacebookUser(credential.facebook_id, credential.access_token)
+            fb_user = FacebookUser(credential.facebook_id, credential.access_token)
 
-        if not fb_user.is_admin(page.page_id):
+            if not fb_user.is_admin(page.page_id):
+                # Acá sería bueno hacer un blueprint en dashboard informando que intentaste acceder al administrador de una página que no tenés permiso
+                return redirect('/facebook/dashboard')
+            
+            context['page'] = page
+
+            fb = Facebook(credential.access_token, page_id)
+
+            return context
+
+        except:
             # Acá sería bueno hacer un blueprint en dashboard informando que intentaste acceder al administrador de una página que no tenés permiso
             return redirect('/facebook/dashboard')
-        
-        context['page'] = page
-
-        return context
