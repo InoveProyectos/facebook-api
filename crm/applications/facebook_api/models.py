@@ -44,4 +44,4 @@ class Page(models.Model):
 
     picture = models.CharField(verbose_name = 'Facebook Page Picture', max_length=500, blank = True)
 
-    post_respondidos = models.IntegerField(verbose_name = 'Posts Respondidos', default=0)
+    posts_respondidos = models.IntegerField(verbose_name = 'Posts Respondidos', default=0)

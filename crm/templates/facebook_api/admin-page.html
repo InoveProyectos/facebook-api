@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="{% static 'facebook_api/css/forms.css' %}">
 <link rel="stylesheet" href="{% static 'facebook_api/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'facebook_api/css/admin-page.css' %}">
 
 {% endblock head %}
 
@@ -118,22 +119,135 @@
 <h1 id="username" value="{{ user.username }}"> Iniciaste sesión como {{ user.username }} </h1>
 <br>
 
-<div class="page" id="page">
+<div class="page" id="page" style="margin-bottom:20px;">
 
-<div class="page-picture">
-    <img src=" {{ page.picture }} ">
-</div>
-
-<div class="page-name">
-    <h2> {{ page.name }} </h2>
-</div>
-
-<div class="manage">
-    <div class="vertical-center-button">
-        <button class="manage-btn"
-            onclick="window.location.href='http:\/\/inove-facebook-api.herokuapp.com/facebook/dashboard'"> Volver al Inicio
-        </button>
+    <div class="page-picture">
+        <img src=" {{ page.picture }} ">
     </div>
+
+    <div class="page-name">
+        <h2> {{ page.name }} </h2>
+    </div>
+
+    <div class="manage">
+        <div class="vertical-center-button">
+            <button class="manage-btn"
+                onclick="window.location.href='http:\/\/inove-facebook-api.herokuapp.com/facebook/dashboard'"> Volver al Inicio
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<h2> Status </h2>
+
+<div class="status" id="status">
+    
+    <div class="status-box" id="status posts-respondidos">
+        Posts Respondidos: {{ page.posts_respondidos }}
+    </div>
+
+    <div class="status-box" id="status posts-sin-responder">
+        Posts Sin Responder: 
+    </div>
+    
+    <div class="status-box" id="status mensajes-respondidos">
+        Mensajes Respondidos: 
+    </div>
+    
+    <div class="status-box" id="status mensajes-sin-responder">
+        Mensajes sin responder: 
+    </div>
+    
+</div>
+
+<div class="page-content" id="page-content">
+
+    <div id="posts" class="page-content-box">
+        <h2> Posts </h2>
+         {% for post in posts %}            
+            <div class="page-post">
+                
+                <div id="page-profile-picture" class="profile-picture">
+                    <img src="{{ page.picture }}" alt="profile picture of the page">
+                </div>
+
+                <div id="page-post-owner" class="post-owner">
+                    <h5> {{ page.name }} </h5>
+                </div>
+        
+                <div class="post-content">
+                    <h3> Contenido de un Post </h3>
+                </div>
+                
+            </div>
+            {% for comment in post['comments'] %}
+                <br>
+                <div class="page-post" id="comment">
+                    
+                    <div id="page-profile-picture" class="profile-picture">
+                        <img src="{{ comment.picture }}" alt="profile picture of the user">
+                    </div>
+
+                    <div id="page-post-owner" class="post-owner">
+                        <h5> {{ comment.owner }} </h5>
+                    </div>
+            
+                    <div class="post-content" id="comment-content">
+                        <h3> comment.content </h3>
+                    </div>
+
+                    <form class="answer-form" method="POST" action="url 'public_answer'">
+                        
+                        <select>
+                            {% for option in registered_answers %}
+                            <option value="{{ option.description }}"> {% option.name %} </option>
+                            {% endfor %}
+                        </select>
+
+                        <input type="submit" value="Responder">
+
+                    </form>
+
+                </div>
+            {% endfor %}
+        {% endfor %}
+            
+    </div>
+    
+    <div id="messenger" class="page-content-box">
+        <h2> Messenger </h2>
+        {% for message in messages %}
+            <div class="page-post" id="comment">
+                
+                <div id="page-profile-picture" class="profile-picture">
+                    <img src="{{ page.picture }}" alt="profile picture of the user">
+                </div>
+
+                <div id="page-post-owner" class="post-owner">
+                    <h5> {{ message.sender }} </h5>
+                </div>
+        
+                <div class="post-content" id="comment-content">
+                    <h3> message.content </h3>
+                </div>
+
+                <form class="answer-form" method="POST" action="url 'private_answer'">
+                        
+                    <select>
+                        {% for option in registered_answers %}
+                        <option value="{{ option.description }}"> {% option.name %} </option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="submit" value="Responder">
+
+                </form>
+
+            </div>  
+        {% endfor %}
+    </div>
+
 </div>
 
 
