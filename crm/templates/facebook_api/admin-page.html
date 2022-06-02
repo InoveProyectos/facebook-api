@@ -138,7 +138,6 @@
     </div>
 </div>
 
-
 <h2> Status </h2>
 
 <div class="status" id="status">
@@ -148,15 +147,15 @@
     </div>
 
     <div class="status-box" id="status posts-sin-responder">
-        Posts Sin Responder: 
+        Posts Sin Responder {{ cant_comentarios_sin_responder }}: 
     </div>
     
     <div class="status-box" id="status mensajes-respondidos">
-        Mensajes Respondidos: 
+        Mensajes Respondidos: {{ page.comentarios_respondidos }}
     </div>
     
     <div class="status-box" id="status mensajes-sin-responder">
-        Mensajes sin responder: 
+        Mensajes sin responder: {{ cant_mensajes_sin_responder }}
     </div>
     
 </div>
