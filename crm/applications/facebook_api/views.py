@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from lib2to3.pgen2 import token
 from django.views.generic import TemplateView, ListView
 
 # Forms
@@ -10,10 +9,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Models
 from django.contrib.auth.models import User
-from applications.facebook_api.models import Credential
+from applications.facebook_api.models import Credential, Page
 
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.FacebookPage import FacebookPage
+from applications.facebook_api.tools.credentials_tools import token_is_valid
 
 from django.http import HttpResponse
 
@@ -110,9 +110,31 @@ class DashboardView(TemplateView):
         # Si el usuario no tiene páginas, no validar sección para ver páginas    
         if pages:
             validated = True
-        
+
+            # Registrar páginas en la base de datos
+            for page in pages:
+
+                page_obj = Page.objects.filter(page_id = page.id).first()
+
+                if not page_obj:
+                    # Si la página no existe, crearla
+                    page_obj = Page(owner=credential, page_id=page.id, page_access_token=page.access_token,
+                                    name=page.name, url=page.url, picture=page.picture)
+
+                    page_obj.save()
+                
+                else: 
+                    # Si la página existe, actualizar valores sujetos a cambio
+                    page_obj.access_token = page.access_token
+                    page_obj.name = page.name
+                    page_obj.picture = page.picture
+
+                    page_obj.save()
+
         else:
-            validated = False
+            # validated = False
+            # harcodeado
+            validated = True
 
         context['validated'] = validated
 
@@ -125,23 +147,21 @@ class AdminPageView(TemplateView):
     '''
     template_name = 'facebook_api/admin-page.html'
 
-    def post(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        page_id = kwargs['id']
+
         user = User.objects.get(username = self.request.user)
-        credential = Credential.objects.filter(user = user.id).first()
+        credential = Credential.objects.get(user = user.id)
+        page = Page.objects.get(page_id = page_id)
+
         fb_user = FacebookUser(credential.facebook_id, credential.access_token)
+
+        if not fb_user.is_admin(page.page_id):
+            # Acá sería bueno hacer un blueprint en dashboard informando que intentaste acceder al administrador de una página que no tenés permiso
+            return redirect('/facebook/dashboard')
         
-        page_name = request.POST.get('page_name')
-        page_id = request.POST.get('page_id')
-        page_access_token = request.POST.get('page_access_token')
-        page_picture = request.POST.get('page_picture')
-
-        if not fb_user.is_admin(page_id):
-            return HttpResponse(status = 400, content = 'You havent access for managing {page_id}')
-            
-        page = FacebookPage(page_id, page_access_token, page_name, page_picture)
-
         context['page'] = page
 
-        return self.render_to_response(context)
+        return context

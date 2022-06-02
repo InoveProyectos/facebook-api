@@ -8,6 +8,7 @@ class FacebookPage:
         self.access_token = str(access_token)
         self.name = name
         self.picture = picture
+        self.url = str(f'https://www.facebook.com/{self.id}')
     
     def get_picture(self):
         '''
@@ -18,6 +19,7 @@ class FacebookPage:
         data = requests.get(f'https://graph.facebook.com/v14.0/{self.id}/picture?redirect=0&access_token={self.access_token}').json()
 
         return data['data']['url']
+
 
     def set_picture(self):
         '''

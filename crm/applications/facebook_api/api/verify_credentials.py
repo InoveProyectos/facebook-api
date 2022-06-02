@@ -25,6 +25,7 @@ def verify_user_credentials(request):
 
     if not(fb_id and access_token and username):   
         print('No se recibieron todos los datos necesarios')    
+        print(fb_id, access_token, username)
         return HttpResponse(status = 400, content = 'Bad request')
 
     try:
@@ -71,24 +72,3 @@ def get_long_lived_token(user_access_token):
 
     response = requests.get(url, params=params)
     return response.json()['access_token']
-
-
-def token_is_valid(user_id):
-    '''
-    Verifica si el token de usuario sigue siendo valido
-    '''
-    credential_obj = Credential.objects.filter(user = user_id).first()
-
-    if not credential_obj:
-        return False
-
-    token = credential_obj.access_token
-
-    url = 'https://graph.facebook.com/debug_token'
-    params = {
-        'input_token': token,
-    }
-
-    response = requests.get(url, params=params)
-
-    return bool((response.json()['data']['is_valid']).capitalize())

@@ -66,13 +66,13 @@
     }
 
     function checkLoginState() {
-        
+
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
-            
+
             location.reload();
         });
-        
+
         // Enviar un POST a un endpoint que registre las credenciales
         var xhr = new XMLHttpRequest();
 
@@ -81,7 +81,7 @@
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
         xhr.send(JSON.stringify({
-            csrfmiddlewaretoken: "{{ csrf_token }}", 
+            csrfmiddlewaretoken: "{{ csrf_token }}",
             accessToken: accessToken,
             userId: userId,
             username: "{{ user.username }}"
@@ -98,7 +98,8 @@
         } else {
             document.getElementById('logout').style.display = 'none';
             document.getElementById('fb-btn').style.display = 'block';
-            document.getElementById('functionalities').style.display = 'none';
+            // HARDCODEADO
+            document.getElementById('functionalities').style.display = 'block';
         }
     }
 
@@ -149,20 +150,16 @@
         </div>
 
         <div class="page-name">
-            <h2> {{ page.name }} </h2>
+            <h2><a href="{{ page.url }}" target="_blank"> {{ page.name }} </a></h2>
         </div>
 
         <div class="manage">
             <div class="vertical-center-button">
-                
-                <form action="{% url 'admin-page' %}" method="post"> {% csrf_token %}
-                    <input type="hidden" name="page_name" value="{{ page.name }}"/>
-                    <input type="hidden" name="page_id" value="{{ page.id }}"/>
-                    <input type="hidden" name="page_access_token" value="{{ page.access_token }}"/>
-                    <input type="hidden" name="page_picture" value="{{ page.picture }}"/>
-                    <button class="manage-btn" value="submit">Administrar</button>
-                </form>
-            
+
+                <button class="manage-btn"
+                    onclick="window.location.href='http:\/\/0.0.0.0:8000/facebook/dashboard/{{page.id}}'"> Administrar
+                </button>
+
             </div>
         </div>
 

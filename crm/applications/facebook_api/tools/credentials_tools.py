@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 from applications.facebook_api.models import Credential
-from django.contrib.auth.models import User
+
+import requests
 
 def get_user_credentials(user):
     '''
@@ -17,3 +18,18 @@ def get_user_credentials(user):
     
     except Credential.DoesNotExist:
         return None
+
+
+def token_is_valid(token):
+    '''
+    Verifica si el token de usuario sigue siendo valido
+    '''
+    url = 'https://graph.facebook.com/debug_token'
+    params = {
+        'input_token': token,
+    }
+
+    response = requests.get(url, params=params)
+
+    return bool((response.json()['data']['is_valid']).capitalize())
+    
