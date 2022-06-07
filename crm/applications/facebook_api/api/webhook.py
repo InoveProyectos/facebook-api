@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from rest_framework.decorators import api_view,  permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from applications.facebook_api.models import Message, Page
 
 @api_view(['GET', 'POST'])
 @permission_classes([]) # No es necesario autenticación
@@ -42,12 +42,9 @@ def webhook(request):
             webhook_event = body.get('entry')[0].get('messaging')[0].get('message')
             print('Webhook event: ' + str(webhook_event))
 
-            # Enviar una respuesta al mensaje
-
-            recv_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
-            
-            message = 'Hola que tal! Dentro de las próximas horas vamos a ponernos en contacto con vos. :)'
-            # fb.send_message(recv_id, message)
+            # Save message in database
+            page_obj = Page.objects.get(page_id=body.get('page_id'))
+            # message = Message(
 
             # Return '200 OK' HttpResponse to all requests
             return HttpResponse('EVENT_RECEIVED', status = 200)

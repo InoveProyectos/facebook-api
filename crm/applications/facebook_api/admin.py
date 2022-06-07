@@ -1,5 +1,5 @@
 from django.contrib import admin
-from applications.facebook_api.models import Credential, Page, Response
+from applications.facebook_api.models import Credential, Page, Response, Message
 
 
 @admin.register(Credential)
@@ -37,5 +37,18 @@ class RespondeAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('page', 'tag', 'message')
+        }),
+    )
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'page', 'sender_id', 'content')
+    
+    search_fields = ('id', 'page', 'sender_id', 'content')
+
+    fieldsets = (
+        (None, {
+            'fields': ('page', 'sender_id', 'content')
         }),
     )

@@ -17,7 +17,7 @@ urlpatterns = [
     path('credentials/<pk>/delete', DestroyCredentialAPIView.as_view()),
 
     # NOTE: Webhook endpoint
-    path('webhook/', webhook),
+    path('webhook', webhook),
 
     # NOTE: APIs personalizadas
     path('credentials/verify-credentials', verify_user_credentials, name = 'credentials/verify-credentials'),

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from tabnanny import verbose
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -60,3 +61,17 @@ class Response(models.Model):
     tag = models.CharField(verbose_name = 'Tag', max_length=50, blank = True)  
 
     message = models.CharField(verbose_name = 'Message', max_length=500, blank = True)
+
+
+class Message(models.Model):
+    '''
+    Tabla que contiene mensajes de facebook registrados por cada página
+    '''
+    id = models.AutoField(verbose_name = 'ID', primary_key=True)
+
+    page = models.ForeignKey(Page, verbose_name = "Page", on_delete = models.DO_NOTHING)
+
+    sender_id = models.CharField(verbose_name = 'User Facebook ID', max_length=500, blank = True)
+
+    content = models.CharField(verbose_name = 'Message', max_length=500, blank = True)
+    

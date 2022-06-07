@@ -132,7 +132,7 @@
     <div class="manage">
         <div class="vertical-center-button">
             <button class="manage-btn"
-                onclick="window.location.href='http:\/\/inove-facebook-api.herokuapp.com/facebook/dashboard'"> Volver al Inicio
+                onclick="window.location.href='https:\/\/inove-facebook-api.herokuapp.com/facebook/dashboard'"> Volver al Inicio
             </button>
         </div>
     </div>
@@ -164,60 +164,67 @@
 
     <div id="posts" class="page-content-box">
         <h2> Posts </h2>
-         {% for post in posts %}    
-            {% if post.comments %}        
-            <div class="page-post">
-                
-                <div id="page-profile-picture" class="profile-picture">
-                    <img src="{{ page.picture }}" alt="profile picture of the page">
-                </div>
+        {% if posts %}
+            {% for post in posts %}    
+                {% if post.comments %}        
+                    <div class="page-post">
+                            
+                        <div id="page-profile-picture" class="profile-picture">
+                            <img src="{{ page.picture }}" alt="profile picture of the page">
+                        </div>
 
-                <div id="page-post-owner" class="post-owner">
-                    <h5> {{ page.name }} </h5>
-                </div>
-        
-                <div class="post-content">
-                    <h3> {{post.message}} </h3>
-                </div>
+                        <div id="page-post-owner" class="post-owner">
+                            <h5> {{ page.name }} </h5>
+                        </div>
                 
-            </div>
-            {% for comment in post.comments %}
-                <br>
-                <div class="page-post" id="comment">
+                        <div class="post-content">
+                            <h3> {{post.message}} </h3>
+                        </div>
+                            
+                    </div>
                     
-                    <div id="page-profile-picture" class="profile-picture">
-                        <img src="{{ comment.picture }}" alt="profile picture">
-                    </div>
+                    {% for comment in post.comments %}
+                        <br>
+                        <div class="page-post" id="comment">
+                            
+                            <div id="page-profile-picture" class="profile-picture">
+                                <img src="{{ comment.picture }}" alt="profile picture">
+                            </div>
+                            
+                            <div id="page-post-owner" class="post-owner">
+                                <h5> {{ comment.owner }} </h5>
+                            </div>
+                            
+                            <div class="post-content" id="comment-content">
+                                <h3> {{ comment.message }} </h3>
+                            </div>
+                            
+                            <form class="answer-form" method="POST" action="{% url 'public-answer' %}">
+                                {%csrf_token%}
+                                
+                                <select name="message">
+                                    {% for option in answers %}
+                                    <option value="{{option.message}}"> {{option.tag}} </option>
+                                    {% endfor %}
+                                </select>
 
-                    <div id="page-post-owner" class="post-owner">
-                        <h5> {{ comment.owner }} </h5>
-                    </div>
-            
-                    <div class="post-content" id="comment-content">
-                        <h3> {{ comment.message }} </h3>
-                    </div>
-
-                    <form class="answer-form" method="POST" action="{% url 'public-answer' %}">
-                        {%csrf_token%}
-                        
-                        <select name="message">
-                            {% for option in answers %}
-                                <option value="{{option.message}}"> {{option.tag}} </option>
-                            {% endfor %}
-                        </select>
-
-                        <input type="hidden" name="post_id" value="{{ comment.id }}">
-                        <input type="hidden" name="page_id" value="{{ page.page_id }}">
-                        <input type="hidden" name="access_token" value="{{ page.access_token }}">
-
-                        <input type="submit" value="Responder">
-
-                    </form>
-
-                </div>
+                                <input type="hidden" name="post_id" value="{{ comment.id }}">
+                                <input type="hidden" name="page_id" value="{{ page.page_id }}">
+                                <input type="hidden" name="access_token" value="{{ page.access_token }}">
+                                
+                                <input type="submit" value="Responder">
+                                
+                            </form>
+                            
+                        </div>
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
-            {% endif %}
-        {% endfor %}
+        {% else %}
+        <h2>
+            No hay posts
+        </h2>
+        {% endif %}
             
     </div>
     
@@ -238,13 +245,16 @@
                 </div>
 
                 <form class="answer-form" method="POST" action="{% url 'private-answer' %}">
+                    {%csrf_token%}
                         
                     <select name="message">
-                        <option>empty</option>
+                        {% for option in answers %}
+                        <option value="{{option.message}}"> {{option.tag}} </option>
+                        {% endfor %}
                     </select>
 
                     <input type="hidden" name="recv_id" value="{{ messsage_recv_id }}">
-                    <input type="hidden" name="page_id" value="{{ page.id }}">
+                    <input type="hidden" name="page_id" value="{{ page.page_id }}">
                     <input type="hidden" name="access_token" value="{{ page.access_token }}">
 
                     <input type="submit" value="Responder">
