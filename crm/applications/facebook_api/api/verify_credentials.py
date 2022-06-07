@@ -65,8 +65,8 @@ def get_long_lived_token(user_access_token):
     
     params = {
         'grant_type': 'fb_exchange_token',
-        'client_id': str(os.getenv('app_id')),
-        'client_secret': str(os.getenv('app_secret')),
+        'client_id': str(os.getenv('APP_ID')),
+        'client_secret': str(os.getenv('APP_SECRET')),
         'fb_exchange_token': user_access_token
     }
 

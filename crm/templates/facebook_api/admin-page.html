@@ -237,13 +237,13 @@
                     <h3> message.content </h3>
                 </div>
 
-                <form class="answer-form" method="POST" action="{% url 'private_answer' %}">
+                <form class="answer-form" method="POST" action="{% url 'private-answer' %}">
                         
-                    <select>
+                    <select name="message">
                         <option>empty</option>
                     </select>
 
-                    <input type="hidden" name="post_id" value="{{ comment.id }}">
+                    <input type="hidden" name="recv_id" value="{{ messsage_recv_id }}">
                     <input type="hidden" name="page_id" value="{{ page.id }}">
                     <input type="hidden" name="access_token" value="{{ page.access_token }}">
 
