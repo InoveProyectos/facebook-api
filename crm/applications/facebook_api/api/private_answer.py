@@ -10,7 +10,7 @@ from applications.facebook_api.classes.Facebook import Facebook
 def answer_message(request):
     access_token = request.POST.get('access_token')
     page_id = request.POST.get('page_id')
-    recv_id = request.POST.get('recv_id')
+    recv_id = request.POST.get('sender_id')
     message = request.POST.get('message')
     message_id = request.POST.get('message_id')
 

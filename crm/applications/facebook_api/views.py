@@ -194,12 +194,13 @@ class AdminPageView(TemplateView):
                     message.sender_name = 'Unknown'
                     message.sender_picture = fb.get_profile_picture()
                     message.save()
+                    
                 else:
                     message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
                     message.sender_picture = user_data.get('profile_pic')
                     message.save()
                 
-                print('mensaje cargado:', message)
+                print('mensaje cargado:', message.sender_id, message.sender_name, message.sender_picture)
 
             context['cant_mensajes_sin_responder'] = len(messages)
             context['messages'] = messages
