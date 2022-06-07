@@ -76,7 +76,7 @@
         // Enviar un POST a un endpoint que registre las credenciales
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "{% url 'verify_user_credentials' %}", true);
+        xhr.open("POST", "{% url 'credentials/verify-credentials' %}", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
@@ -140,39 +140,33 @@
     </div>
 </div>
 
-<div class="aux">
-
-    {% if validated %}
-    <div class="functionalities" id="functionalities">
+{% if validated %}
+<div class="functionalities" id="functionalities">
+    
+    {% for page in pages %}
+    <div class="page" id="page">
         
-        {% for page in pages %}
-        <div class="page" id="page">
-            
-            <div class="page-picture">
-                <img src=" {{ page.picture }} ">
-            </div>
-            
-            <div class="page-name">
-                <h2><a href="{{ page.url }}" target="_blank"> {{ page.name }} </a></h2>
-            </div>
-            
-            <div class="manage">
-                <div class="vertical-center-button">
-                    
-                    <button class="manage-btn"
-                    onclick="window.location.href='http:\/\/inove-facebook-api.herokuapp.com/facebook/admin-page/{{page.id}}'"> Administrar
-                </button>
-                
-            </div>
+        <div class="page-picture">
+            <img src=" {{ page.picture }} ">
         </div>
         
+        <div class="page-name">
+            <h2><a href="{{ page.url }}" target="_blank"> {{ page.name }} </a></h2>
+        </div>
+        
+        <div class="manage">
+            <div class="vertical-center-button">
+                
+                <button class="manage-btn"
+                onclick="window.location.href='http:\/\/inove-facebook-api.herokuapp.com/facebook/admin-page/{{page.id}}'"> Administrar
+            </button>
+            
+        </div>
     </div>
+    
 </div>
 {% endfor %}
-{% else %}
-<h2> No encontramos ninguna página para que puedas administrar :(</h2>
 {% endif %}
-</div>
 
 
 {% endblock %}
