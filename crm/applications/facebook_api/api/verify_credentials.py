@@ -44,7 +44,7 @@ def verify_user_credentials(request):
             credential_obj.save()
 
         else:
-            long_lived_token = get_long_lived_token(os.getenv('APP_ID'), os.getenv('APP_SECRET'), access_token)
+            long_lived_token = get_long_lived_token(access_token)
             credential_obj.access_token = long_lived_token
             credential_obj.save()
 
