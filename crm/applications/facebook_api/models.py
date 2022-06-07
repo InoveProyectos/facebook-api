@@ -34,7 +34,7 @@ class Page(models.Model):
 
     page_id = models.BigIntegerField(verbose_name = 'Facebook Page ID')
 
-    page_access_token = models.CharField(verbose_name = 'Facebook Access Token', max_length=500, blank = True)
+    access_token = models.CharField(verbose_name = 'Facebook Access Token', max_length=500, blank = True)
 
     owner = models.ForeignKey(Credential, verbose_name="Credential", on_delete=models.DO_NOTHING)
 
@@ -47,3 +47,16 @@ class Page(models.Model):
     posts_respondidos = models.IntegerField(verbose_name = 'Posts Respondidos', default=0)
 
     mensajes_respondidos = models.IntegerField(verbose_name = 'Mensajes Respondidos', default=0)
+
+
+class Response(models.Model):
+    '''
+    Tabla que contiene respuestas de mensajes de facebook registradas por cada página
+    '''
+    id = models.AutoField(verbose_name = 'ID', primary_key=True)
+
+    page = models.ForeignKey(Page, verbose_name = "Page", on_delete=models.DO_NOTHING)
+
+    tag = models.CharField(verbose_name = 'Tag', max_length=50, blank = True)  
+
+    message = models.CharField(verbose_name = 'Message', max_length=500, blank = True)

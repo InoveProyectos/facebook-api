@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Models
 from django.contrib.auth.models import User
-from applications.facebook_api.models import Credential, Page
+from applications.facebook_api.models import Credential, Page, Response
 
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.FacebookPage import FacebookPage
@@ -119,7 +119,7 @@ class DashboardView(TemplateView):
 
                 if not page_obj:
                     # Si la página no existe, crearla
-                    page_obj = Page(owner=credential, page_id=page.id, page_access_token=page.access_token,
+                    page_obj = Page(owner=credential, page_id=page.id, access_token=page.access_token,
                                     name=page.name, url=page.url, picture=page.picture)
 
                     page_obj.save()
@@ -133,9 +133,7 @@ class DashboardView(TemplateView):
                     page_obj.save()
 
         else:
-            # validated = False
-            # harcodeado
-            validated = True
+            validated = False
 
         context['validated'] = validated
 
@@ -157,6 +155,9 @@ class AdminPageView(TemplateView):
             user = User.objects.get(username = self.request.user)
             credential = Credential.objects.get(user = user.id)
             page = Page.objects.get(page_id = page_id)
+            answers = list(Response.objects.filter(page = page.id))
+
+            context['answers'] = answers
 
             fb_user = FacebookUser(credential.facebook_id, credential.access_token)
 
@@ -167,9 +168,20 @@ class AdminPageView(TemplateView):
             context['page'] = page
 
             fb = Facebook(credential.access_token, page_id)
+            
+            try:
+                feed_data = fb.get_unanswered_comments()
+
+            except Exception as e:
+                print('Error al obtener comentarios', e)
+
+            print(feed_data.get('data'))
+            context['posts'] = feed_data.get('data')
+
+            context['cant_comentarios_sin_responder'] = feed_data.get('cant_comentarios_sin_responder')
 
             return context
 
         except:
             # Acá sería bueno hacer un blueprint en dashboard informando que intentaste acceder al administrador de una página que no tenés permiso
-            return redirect('/facebook/dashboard')
+            return redirect('dashboard')

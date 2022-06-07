@@ -4,7 +4,8 @@ from django.urls import path
 from applications.facebook_api.api.credentials import *
 from applications.facebook_api.api.webhook import webhook
 from applications.facebook_api.api.verify_credentials import verify_user_credentials
-
+from applications.facebook_api.api.create_answer import register_answer
+from applications.facebook_api.api.public_answer import answer_comment
 
 urlpatterns = [
 
@@ -18,6 +19,8 @@ urlpatterns = [
     path('webhook/', webhook),
 
     # NOTE: APIs personalizadas
-    path('credentials/verify-credentials', verify_user_credentials, name = 'credentials/verify-credentials')
+    path('credentials/verify-credentials', verify_user_credentials, name = 'credentials/verify-credentials'),
+    path('create-response', register_answer, name = 'create-response'),
+    path('public-answer', answer_comment, name = 'public-answer'),
 
 ]

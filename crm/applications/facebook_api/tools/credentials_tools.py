@@ -20,16 +20,17 @@ def get_user_credentials(user):
         return None
 
 
-def token_is_valid(token):
+def token_is_valid(page_token, user_token):
     '''
     Verifica si el token de usuario sigue siendo valido
     '''
     url = 'https://graph.facebook.com/debug_token'
     params = {
-        'input_token': token,
+        'input_token': page_token,
+        'access_token': user_token
     }
 
     response = requests.get(url, params=params)
 
-    return bool((response.json()['data']['is_valid']).capitalize())
+    return (response.json()['data']['is_valid'])
     

@@ -6,6 +6,7 @@ Para poder usarlo, es necesario que estén declarado ACCESS_TOKEN y PAGE_ID
 como variable de entorno
 '''
 
+from distutils.log import ERROR
 import requests
 from datetime import datetime
 from pytz import timezone
@@ -34,6 +35,7 @@ class Facebook:
         '''
         feed = self.get_page_posts()
 
+
         if 'error' in feed:
             return feed
         
@@ -42,7 +44,6 @@ class Facebook:
         for post in feed.get('data'):
             # Ir a buscar los comentarios del post, con sus respectivos likes
             comments = self.get_post_comments(post.get('id')).get('data')
-            
             for comment in comments:
                 comment_likes = self.get_post_likes(comment.get('id'))
                 comment['likes_amount'] = comment_likes.get('likes').get('summary').get('total_count')
@@ -55,7 +56,7 @@ class Facebook:
             likes = self.get_post_likes(post.get('id'))
             post['likes_amount'] = likes.get('likes').get('summary').get('total_count')
             post['users_that_liked'] = likes.get('likes').get('data')
-        
+
         return feed
     
 
@@ -113,7 +114,7 @@ class Facebook:
         '''
         Función que retorna todos los Post propios de una página
         '''
-        url = f"https://graph.facebook.com/v13.0/me/posts?id={ str(self.page_id) }&access_token={ str(self.access_token) }"
+        url = f"https://graph.facebook.com/v13.0/{ str(self.page_id) }/posts?&access_token={ str(self.access_token) }"
 
         response = requests.get(url = url)
 
@@ -124,7 +125,9 @@ class Facebook:
         '''
         Obtener los comentarios de un post
         '''
-        url = f"https://graph.facebook.com/v13.0/{ str(post_id) }/comments?access_token={ str(self.access_token) }"
+
+        # HARDCODEADO
+        url = f"https://graph.facebook.com/v13.0/{ str(post_id) }/comments?access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }"
 
         response = requests.get(url = url)
 
@@ -135,7 +138,9 @@ class Facebook:
         '''
         Obtener todos los likes de un post (cantidad y usuarios que dieron like)
         '''
-        url = f"https://graph.facebook.com/{ str(post_id) }?fields=likes.summary(true)&access_token={ str(self.access_token) }"
+
+        # HARDCODEADO
+        url = f"https://graph.facebook.com/{ str(post_id) }?fields=likes.summary(true)&access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }"
 
         response = requests.get(url = url)
 
@@ -218,3 +223,70 @@ class Facebook:
         otra página
         '''
         self.graph_api.put_like(object_id = object_id)
+
+
+    def already_answered(self, comment):
+        '''
+        Devuelve true si en las respuestas de un comentario hay respuestas de la página
+        '''
+
+        # HARDCODEADO
+        replies = requests.get(
+            f"https://graph.facebook.com/v13.0/{ str(comment.get('id')) }/comments?access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }").json()
+        
+        return any([replie.get('from').get('id') == self.page_id for replie in replies.get('data')])
+
+
+    def get_profile_picture(self, id = None):
+        '''
+        Devuelve la foto de perfil de un usuario dado su ID
+        '''
+
+        # NOTE: Funcionalidad aún no implementada, devuelve valor hardcodeado
+
+        # if id:
+        #     url = f'https://graph.facebook.com/{id}/picture'
+
+        #     data = requests.get(url)
+
+        #     if data.status_code <= 400:
+        #         return data.__dict__.get('url')
+
+        #     return 'https://scontent.feze8-2.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Jblb2zGGvosAX-qf9-a&_nc_ht=scontent.feze8-2.fna&edm=AHgPADgEAAAA&oh=00_AT_IwNVp-E8AmTv9GyemvAi0Jwc5521ZSng6gW7mM7ug8g&oe=62C07D99' # Imagen default
+
+        return 'https://scontent.feze8-2.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Jblb2zGGvosAX-qf9-a&_nc_ht=scontent.feze8-2.fna&edm=AHgPADgEAAAA&oh=00_AT_IwNVp-E8AmTv9GyemvAi0Jwc5521ZSng6gW7mM7ug8g&oe=62C07D99' # Imagen default
+    
+
+    def get_unanswered_comments(self):
+        '''
+        Obtener todos los comentarios sin responder
+        '''
+        feed = self.get_feed()
+
+        print(feed)
+
+        cant_comentarios_sin_responder = 0
+
+        for post in feed.get('data'):
+            comments = post.get('comments')
+            new_comments = []
+            for comment in comments:
+                if not self.already_liked(comment):
+
+                    cant_comentarios_sin_responder += 1
+
+                    try:
+                        comment['owner'] = comment.get('from').get('name')
+                        comment['picture'] = self.get_profile_picture(comment.get('from').get('id'))
+
+                    except:
+                        comment['owner'] = 'Unknown'
+                        comment['picture'] = self.get_profile_picture(None)
+                
+                    new_comments.append(comment)
+            
+            post['comments'] = new_comments
+
+        feed['cant_comentarios_sin_responder'] = cant_comentarios_sin_responder
+
+        return feed

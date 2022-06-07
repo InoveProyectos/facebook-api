@@ -1,4 +1,9 @@
 body {
     background-color: #fdfbfb;
     font-family: "Montserrat", sans-serif;
+    overflow:auto;
 }
+
+html, body{
+    overflow:initial !important;
+  }
