@@ -76,7 +76,7 @@
         // Enviar un POST a un endpoint que registre las credenciales
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "https://inove-facebook-api.herokuapp.com/facebook/credentials/verify-credentials' ", true);
+        xhr.open("POST", "{% url 'verify-credentials' %}", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
 
@@ -127,7 +127,7 @@
     </div>
 
     <div class="platform-login action">
-        <a id="logout" onclick="logout()" href="url 'dashboard'"> Cerrar
+        <a id="logout" onclick="logout()" href="{% url 'dashboard' %}"> Cerrar
             sesión de Facebook </a>
 
         <fb:login-button id="fb-btn"
