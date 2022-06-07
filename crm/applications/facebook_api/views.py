@@ -198,7 +198,10 @@ class AdminPageView(TemplateView):
                     message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
                     message.sender_picture = user_data.get('profile_pic')
                     message.save()
+                
+                print('mensaje cargado:', message)
 
+            context['cant_mensajes_sin_responder'] = len(messages)
             context['messages'] = messages
 
 

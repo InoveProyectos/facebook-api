@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.decorators import api_view,  permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-from applications.facebook_api.models import Page
+from applications.facebook_api.models import Page, Message
 from applications.facebook_api.classes.Facebook import Facebook
 
 @api_view(['POST'])
@@ -12,18 +12,25 @@ def answer_message(request):
     page_id = request.POST.get('page_id')
     recv_id = request.POST.get('recv_id')
     message = request.POST.get('message')
+    message_id = request.POST.get('message_id')
 
-    print(access_token, page_id, recv_id, message)
-    if not(access_token and page_id and recv_id and message):
+    print(access_token, page_id, recv_id, message, message_id)
+
+    if not(access_token and page_id and recv_id and message and message_id):
         return HttpResponse('Missing parameters', status=400)
 
     fb = Facebook(access_token, page_id)
     fb.send_message(recv_id, message)
     fb.put_like(recv_id)
 
-    # Aumentar el contador de post respondidos de la página
+    # Aumentar el contador de mensajes respondidos de la página
     page = Page.objects.filter(page_id=int(page_id)).first()
-    page.posts_respondidos += 1
+    page.mensajes_respondidos += 1
     page.save()
+
+    # eliminar mensaje de la db
+    message_obj = Message.objects.filter(message_id=int(message_id)).first()
+    message_obj.delete()
+
 
     return HttpResponseRedirect('/facebook/admin-page/' + page_id)
