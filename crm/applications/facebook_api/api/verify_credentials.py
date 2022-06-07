@@ -36,7 +36,7 @@ def verify_user_credentials(request):
 
         if not credential_obj:
 
-            long_lived_token = get_long_lived_token(str(os.getenv('APP_ID')), str(os.getenv('APP_SECRET')), access_token)
+            long_lived_token = get_long_lived_token(access_token)
 
             credential_obj = Credential.objects.create(
                 user=user_obj, facebook_id = fb_id, access_token=long_lived_token)
