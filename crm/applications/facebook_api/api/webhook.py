@@ -34,6 +34,7 @@ def webhook(request):
     elif request.method == 'POST':
         
         body_unicode = request.body.decode('utf-8')
+        print(json.loads(body_unicode))
         body = json.loads(body_unicode)['content']
         print(body) 
 
