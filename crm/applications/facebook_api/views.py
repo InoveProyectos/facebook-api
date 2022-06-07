@@ -190,9 +190,14 @@ class AdminPageView(TemplateView):
                 # Agregar a los mensajes nombre y foto del usuario
                 user_data = fb.get_user_info_by_id(message.sender_id)
                 print('response:', user_data)
-                message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
-                message.sender_picture = user_data.get('profile_pic')
-                message.save()
+                if 'error' in user_data:
+                    message.sender_name = 'Unknown'
+                    message.sender_picture = fb.get_profile_picture()
+                    message.save()
+                else:
+                    message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
+                    message.sender_picture = user_data.get('profile_pic')
+                    message.save()
 
             context['messages'] = messages
 
