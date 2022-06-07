@@ -202,7 +202,7 @@
                             <form class="answer-form" method="POST" action="{% url 'public-answer' %}">
                                 {%csrf_token%}
                                 
-                                <select name="message" label="Respuesta">
+                                <select name="message">
                                     {% if answers %}
                                         {% for option in answers %}
                                         <option value="{{option.message}}"> {{option.tag}} </option>
@@ -216,7 +216,9 @@
                                 <input type="hidden" name="page_id" value="{{ page.page_id }}">
                                 <input type="hidden" name="access_token" value="{{ page.access_token }}">
                                 
+                                {% if answers %}
                                 <input type="submit" value="Responder">
+                                {% endif %}
                             </form>
                             
                         </div>
@@ -252,7 +254,7 @@
                 <form class="answer-form" method="POST" action="{% url 'private-answer' %}">
                     {%csrf_token%}
                         
-                    <select name="message" label="Respuesta">
+                    <select name="message">
                         {% if answers %}
                             {% for option in answers %}
                             <option value="{{option.message}}"> {{option.tag}} </option>

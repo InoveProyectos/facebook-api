@@ -13,6 +13,7 @@ def answer_message(request):
     recv_id = request.POST.get('recv_id')
     message = request.POST.get('message')
 
+    print(access_token, page_id, recv_id, message)
     if not(access_token and page_id and recv_id and message):
         return HttpResponse('Missing parameters', status=400)
 
