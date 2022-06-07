@@ -49,7 +49,7 @@ def webhook(request):
             # Save message in database
             page_obj = Page.objects.get(page_id=int(body.get('entry')[0].get('id')))
             sender_id = str(body.get('entry')[0].get('messaging')[0].get('sender').get('id'))
-            content = body.get('entry')[0].get('messaging')[0].get('message')
+            content = body.get('entry')[0].get('messaging')[0].get('message').get('text')
 
             message = Message(page=page_obj, sender_id=sender_id, content=content)
             message.save()
