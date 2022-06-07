@@ -257,6 +257,28 @@ class Facebook:
         return 'https://scontent.feze8-2.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Jblb2zGGvosAX-qf9-a&_nc_ht=scontent.feze8-2.fna&edm=AHgPADgEAAAA&oh=00_AT_IwNVp-E8AmTv9GyemvAi0Jwc5521ZSng6gW7mM7ug8g&oe=62C07D99' # Imagen default
     
 
+    def get_user_info_by_id(self, id):
+        '''
+        Devuelve el nombre de un usuario dado su ID
+        @return {
+            "first_name":<first_name>,
+            "last_name":<last_name>,
+            "profile_pic": <url>,
+            "id":"5309191945779484"
+        '''
+
+        url = 'https://graph.facebook.com/' + str(id)
+        params = {
+            'access_token': self.access_token
+        }
+
+        response = requests.get(url = url, params = params).json()
+
+        # HARDCODEADO
+        response['profile_pic'] = 'https://scontent.feze8-2.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Jblb2zGGvosAX-qf9-a&_nc_ht=scontent.feze8-2.fna&edm=AHgPADgEAAAA&oh=00_AT_IwNVp-E8AmTv9GyemvAi0Jwc5521ZSng6gW7mM7ug8g&oe=62C07D99' # Imagen default
+
+        return response
+
     def get_unanswered_comments(self):
         '''
         Obtener todos los comentarios sin responder

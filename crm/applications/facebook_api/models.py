@@ -71,7 +71,10 @@ class Message(models.Model):
 
     page = models.ForeignKey(Page, verbose_name = "Page", on_delete = models.DO_NOTHING)
 
-    sender_id = models.CharField(verbose_name = 'User Facebook ID', max_length=500, blank = True)
+    sender_id = models.CharField(verbose_name = 'User Facebook ID', max_length=500)
 
-    content = models.CharField(verbose_name = 'Message', max_length=500, blank = True)
-    
+    sender_name = models.CharField(verbose_name = 'User Facebook Name', max_length=255, blank = True)
+
+    sender_picture = models.CharField(verbose_name = 'User Facebook Picture', max_length=500, blank = True)
+
+    content = models.CharField(verbose_name = 'Message', max_length=500)

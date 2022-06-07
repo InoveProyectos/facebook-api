@@ -202,10 +202,14 @@
                             <form class="answer-form" method="POST" action="{% url 'public-answer' %}">
                                 {%csrf_token%}
                                 
-                                <select name="message">
-                                    {% for option in answers %}
-                                    <option value="{{option.message}}"> {{option.tag}} </option>
-                                    {% endfor %}
+                                <select name="message" label="Respuesta">
+                                    {% if answers %}
+                                        {% for option in answers %}
+                                        <option value="{{option.message}}"> {{option.tag}} </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="No hay nada por aquí"> Registrá una respuesta! </option>
+                                    {% endif %}
                                 </select>
 
                                 <input type="hidden" name="post_id" value="{{ comment.id }}">
@@ -213,7 +217,6 @@
                                 <input type="hidden" name="access_token" value="{{ page.access_token }}">
                                 
                                 <input type="submit" value="Responder">
-                                
                             </form>
                             
                         </div>
@@ -230,38 +233,46 @@
     
     <div id="messenger" class="page-content-box">
         <h2> Messenger </h2>
+        
+        {% for message in messages %}
             <div class="page-post" id="comment">
                 
                 <div id="page-profile-picture" class="profile-picture">
-                    <img src="{{ page.picture }}" alt="profile picture of the user">
+                    <img src="{{ message.sender_picture }}" alt="profile picture of the user">
                 </div>
 
                 <div id="page-post-owner" class="post-owner">
-                    <h5> {{ message.sender }} </h5>
+                    <h5> {{ message.sender_name }} </h5>
                 </div>
         
                 <div class="post-content" id="comment-content">
-                    <h3> message.content </h3>
+                    <h3> {{message.content}} </h3>
                 </div>
 
                 <form class="answer-form" method="POST" action="{% url 'private-answer' %}">
                     {%csrf_token%}
                         
-                    <select name="message">
-                        {% for option in answers %}
-                        <option value="{{option.message}}"> {{option.tag}} </option>
-                        {% endfor %}
+                    <select name="message" label="Respuesta">
+                        {% if answers %}
+                            {% for option in answers %}
+                            <option value="{{option.message}}"> {{option.tag}} </option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="No hay nada por aquí"> Registrá una respuesta! </option>
+                        {% endif %}
                     </select>
 
-                    <input type="hidden" name="recv_id" value="{{ messsage_recv_id }}">
+                    <input type="hidden" name="recv_id" value="{{ messsage.sender_id }}">
                     <input type="hidden" name="page_id" value="{{ page.page_id }}">
                     <input type="hidden" name="access_token" value="{{ page.access_token }}">
 
-                    <input type="submit" value="Responder">
-
+                    {% if answers %}
+                        <input type="submit" value="Responder">
+                    {% endif %}
                 </form>
 
-            </div>  
+            </div> 
+        {% endfor %} 
     </div>
 
 </div>

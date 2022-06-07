@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Models
 from django.contrib.auth.models import User
-from applications.facebook_api.models import Credential, Page, Response
+from applications.facebook_api.models import Credential, Page, Response, Message
 
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.FacebookPage import FacebookPage
@@ -17,6 +17,8 @@ from applications.facebook_api.classes.Facebook import Facebook
 from applications.facebook_api.tools.credentials_tools import token_is_valid
 
 from django.http import HttpResponse
+
+import os, sys
 
 # NOTE: Registro e inicio de sesión
 
@@ -169,19 +171,37 @@ class AdminPageView(TemplateView):
 
             fb = Facebook(credential.access_token, page_id)
             
+            ############### GET FEED ###############
             try:
                 feed_data = fb.get_unanswered_comments()
 
             except Exception as e:
                 print('Error al obtener comentarios', e)
 
-            print(feed_data.get('data'))
             context['posts'] = feed_data.get('data')
 
             context['cant_comentarios_sin_responder'] = feed_data.get('cant_comentarios_sin_responder')
 
+        
+            ############### GET MESSAGES ###############
+            messages = list(Message.objects.filter(page = page.id))
+
+            for message in messages:
+                # Agregar a los mensajes nombre y foto del usuario
+                user_data = fb.get_user_info_by_id(message.sender_id)
+                print('response:', user_data)
+                message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
+                message.sender_picture = user_data.get('profile_pic')
+                message.save()
+                break
+
+            context['messages'] = messages
+
+
             return context
 
-        except:
-            # Acá sería bueno hacer un blueprint en dashboard informando que intentaste acceder al administrador de una página que no tenés permiso
-            return redirect('dashboard')
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            return HttpResponse(status = 400, content = f'Bad request: {e}')
