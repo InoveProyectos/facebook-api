@@ -8,6 +8,7 @@ from applications.facebook_api.classes.Facebook import Facebook
 @api_view(['POST'])
 @permission_classes([IsAuthenticated]) 
 def answer_message(request):
+    print(dict(request.POST))
     access_token = request.POST.get('access_token')
     page_id = request.POST.get('page_id')
     recv_id = request.POST.get('sender_id')
@@ -21,7 +22,6 @@ def answer_message(request):
 
     fb = Facebook(access_token, page_id)
     fb.send_message(recv_id, message)
-    fb.put_like(recv_id)
 
     # Aumentar el contador de mensajes respondidos de la página
     page = Page.objects.filter(page_id=int(page_id)).first()
@@ -29,8 +29,7 @@ def answer_message(request):
     page.save()
 
     # eliminar mensaje de la db
-    message_obj = Message.objects.filter(message_id=int(message_id)).first()
+    message_obj = Message.objects.get(id=int(message_id))
     message_obj.delete()
-
 
     return HttpResponseRedirect('/facebook/admin-page/' + page_id)

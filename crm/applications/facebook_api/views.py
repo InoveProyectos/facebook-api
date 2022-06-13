@@ -181,7 +181,6 @@ class AdminPageView(TemplateView):
             context['posts'] = feed_data.get('data')
 
             context['cant_comentarios_sin_responder'] = feed_data.get('cant_comentarios_sin_responder')
-
         
             ############### GET MESSAGES ###############
             messages = list(Message.objects.filter(page = page.id))
@@ -190,6 +189,7 @@ class AdminPageView(TemplateView):
                 # Agregar a los mensajes nombre y foto del usuario
                 user_data = fb.get_user_info_by_id(message.sender_id)
                 print('response:', user_data)
+
                 if 'error' in user_data:
                     message.sender_name = 'Unknown'
                     message.sender_picture = fb.get_profile_picture()
@@ -202,8 +202,8 @@ class AdminPageView(TemplateView):
                 
                 print('mensaje cargado:', message.sender_id, message.sender_name, message.sender_picture)
 
-            context['cant_mensajes_sin_responder'] = len(messages)
             context['messages'] = messages
+            context['cant_mensajes_sin_responder'] = len(messages)
 
 
             return context
