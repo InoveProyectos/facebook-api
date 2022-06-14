@@ -309,4 +309,32 @@
 
 </form>
 
+<br><br><br>
+
+<h2> Realizar Publicaciones </h2>
+<form action="{% url 'make-post' %}" method="POST">
+    {%csrf_token%}
+    <div class="txt_field">
+    
+        <input type="text" id="tags" name="tags">
+        <span></span>
+        <label>Tags de tu respuesta (Valores separados por coma, Ejemplo: nuevo, curso, programacion)</label>
+    
+    </div>
+
+    <div class="txt_field">
+    
+        <input type="text" id="content" name="content" required>
+        <span></span>
+        <label>Contenido de tu respuesta</label>
+  
+    </div>
+
+    <input type="hidden" value="{{ page.page_id }}" name="page_id">
+    <input type="hidden" value="{{ page.access_token }}" name="access_token">
+
+    <input type="submit" value="Confirmar">
+    
+
+</form>
 {% endblock %}

@@ -191,12 +191,14 @@ class AdminPageView(TemplateView):
                 print('response:', user_data)
 
                 if 'error' in user_data:
+                    print('ERROR',user_data)
                     message.sender_name = 'Unknown'
                     message.sender_picture = fb.get_profile_picture()
                     message.save()
                     
                 else:
-                    message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
+                    print('OK', user_data)
+                    message.sender_name = user_data.get('name')
                     message.sender_picture = user_data.get('profile_pic')
                     message.save()
                 

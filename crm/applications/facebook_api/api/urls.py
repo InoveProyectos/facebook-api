@@ -7,6 +7,7 @@ from applications.facebook_api.api.verify_credentials import verify_user_credent
 from applications.facebook_api.api.create_answer import register_answer
 from applications.facebook_api.api.public_answer import answer_comment
 from applications.facebook_api.api.private_answer import answer_message
+from applications.facebook_api.api.make_post import make_facebook_post
 
 urlpatterns = [
 
@@ -24,4 +25,5 @@ urlpatterns = [
     path('create-response', register_answer, name = 'create-response'),
     path('public-answer', answer_comment, name = 'public-answer'),
     path('private-answer', answer_message, name = 'private-answer'),
+    path('make-post', make_facebook_post, name = 'make-post'),
 ]
