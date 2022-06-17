@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView
 
 # Forms
 from django import forms
@@ -12,13 +12,12 @@ from django.contrib.auth.models import User
 from applications.facebook_api.models import Credential, Page, Response, Message
 
 from applications.facebook_api.classes.FacebookUser import FacebookUser
-from applications.facebook_api.classes.FacebookPage import FacebookPage
 from applications.facebook_api.classes.Facebook import Facebook
-from applications.facebook_api.tools.credentials_tools import token_is_valid
 
 from django.http import HttpResponse
 
 import os, sys
+import requests
 
 # NOTE: Registro e inicio de sesión
 
@@ -123,6 +122,10 @@ class DashboardView(TemplateView):
                     # Si la página no existe, crearla
                     page_obj = Page(owner=credential, page_id=page.id, access_token=page.access_token,
                                     name=page.name, url=page.url, picture=page.picture)
+                    
+                    # Suscribir la aplicación a webhooks de messenger
+                    app_id = str(os.getenv('APP_ID'))
+                    requests.post(f'https://graph.facebook.com/{page.id}/subscribed_apps?subscribed_fields=messages&access_token={ page.access_token }&app_id={ app_id }')
 
                     page_obj.save()
                 
