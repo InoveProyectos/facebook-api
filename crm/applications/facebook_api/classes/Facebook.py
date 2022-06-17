@@ -273,6 +273,8 @@ class Facebook:
             'app_id': '748013059515309' # os.getenv('app_id')
         }
 
+        print('REQUEST MADE:', url, params)
+
         response = requests.get(url = url, params = params).json()
 
         # HARDCODEADO

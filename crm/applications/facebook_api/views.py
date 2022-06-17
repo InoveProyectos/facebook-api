@@ -172,7 +172,7 @@ class AdminPageView(TemplateView):
             
             context['page'] = page
 
-            fb = Facebook(credential.access_token, page_id)
+            fb = Facebook(page.access_token, page_id)
             
             ############### GET FEED ###############
             try:
@@ -196,7 +196,7 @@ class AdminPageView(TemplateView):
                 if 'error' in user_data:
                     print('ERROR',user_data)
                     message.sender_name = 'Unknown'
-                    message.sender_picture = fb.get_profile_picture()
+                    message.sender_picture = user_data.get('profile_pic')
                     message.save()
                     
                 else:
