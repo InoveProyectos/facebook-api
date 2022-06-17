@@ -6,10 +6,10 @@ Para poder usarlo, es necesario que estén declarado ACCESS_TOKEN y PAGE_ID
 como variable de entorno
 '''
 
-from distutils.log import ERROR
 import requests
 from datetime import datetime
 from pytz import timezone
+import os
 
 # facebook sdk
 import facebook as sdk
@@ -269,7 +269,8 @@ class Facebook:
 
         url = 'https://graph.facebook.com/' + str(id)
         params = {
-            'access_token': self.access_token
+            'access_token': self.access_token,
+            'app_id': os.getenv('APP_ID')
         }
 
         response = requests.get(url = url, params = params).json()
