@@ -201,7 +201,7 @@ class AdminPageView(TemplateView):
                     
                 else:
                     print('OK', user_data)
-                    message.sender_name = user_data.get('name')
+                    message.sender_name = user_data.get('first_name') + ' ' + user_data.get('last_name')
                     message.sender_picture = user_data.get('profile_pic')
                     message.save()
                 
