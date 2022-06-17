@@ -270,7 +270,7 @@ class Facebook:
         url = 'https://graph.facebook.com/' + str(id)
         params = {
             'access_token': self.access_token,
-            'app_id': os.getenv('APP_ID')
+            'app_id': '748013059515309' # os.getenv('app_id')
         }
 
         response = requests.get(url = url, params = params).json()
