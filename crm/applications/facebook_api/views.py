@@ -14,7 +14,7 @@ from applications.facebook_api.models import Credential, Page, Response, Message
 from applications.facebook_api.classes.FacebookUser import FacebookUser
 from applications.facebook_api.classes.Facebook import Facebook
 
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 import os, sys
 import requests
@@ -151,8 +151,8 @@ class AdminPageView(TemplateView):
     '''
     template_name = 'facebook_api/admin-page.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, *args, **kwargs):
+        context = super().get(*args, **kwargs)
 
         try: 
             page_id = kwargs['id']
@@ -177,11 +177,11 @@ class AdminPageView(TemplateView):
             ############### GET FEED ###############
             try:
                 feed_data = fb.get_unanswered_comments()
+                context['posts'] = feed_data.get('data')
 
             except Exception as e:
                 print('Error al obtener comentarios', e)
 
-            context['posts'] = feed_data.get('data')
 
             context['cant_comentarios_sin_responder'] = feed_data.get('cant_comentarios_sin_responder')
         
@@ -217,4 +217,5 @@ class AdminPageView(TemplateView):
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print('ERROR', exc_type, fname, exc_tb.tb_lineno)
-            return redirect('/facebook/dashboard')
+            print('nos vamo a redirect')
+            return HttpResponseRedirect('/facebook/dashboard')
