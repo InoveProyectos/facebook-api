@@ -151,8 +151,8 @@ class AdminPageView(TemplateView):
     '''
     template_name = 'facebook_api/admin-page.html'
 
-    def get(self, *args, **kwargs):
-        context = super().get(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
         try: 
             page_id = kwargs['id']
@@ -214,8 +214,5 @@ class AdminPageView(TemplateView):
             return context
 
         except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print('ERROR', exc_type, fname, exc_tb.tb_lineno)
-            print('nos vamo a redirect')
-            return HttpResponseRedirect('/facebook/dashboard')
+            context['error'] = {'error':'permission denied'}
+            return context
