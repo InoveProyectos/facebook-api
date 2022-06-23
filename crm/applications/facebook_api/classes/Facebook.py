@@ -114,7 +114,7 @@ class Facebook:
         '''
         Función que retorna todos los Post propios de una página
         '''
-        url = f"https://graph.facebook.com/v13.0/{ str(self.page_id) }/posts?&access_token={ str(self.access_token) }"
+        url = f"https://graph.facebook.com/v13.0/{ str(self.page_id) }/posts?&access_token={ str(self.access_token) }&app_id=748013059515309"
 
         response = requests.get(url = url)
 
@@ -127,7 +127,7 @@ class Facebook:
         '''
 
         # HARDCODEADO
-        url = f"https://graph.facebook.com/v13.0/{ str(post_id) }/comments?access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }"
+        url = f"https://graph.facebook.com/v13.0/{ str(post_id) }/comments?access_token={ str(self.access_token) }&app_id=748013059515309"
 
         response = requests.get(url = url)
 
@@ -140,7 +140,7 @@ class Facebook:
         '''
 
         # HARDCODEADO
-        url = f"https://graph.facebook.com/{ str(post_id) }?fields=likes.summary(true)&access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }"
+        url = f"https://graph.facebook.com/{ str(post_id) }?fields=likes.summary(true)&access_token={ str(self.access_token) }&app_id=748013059515309"
 
         response = requests.get(url = url)
 
@@ -230,11 +230,18 @@ class Facebook:
         Devuelve true si en las respuestas de un comentario hay respuestas de la página
         '''
 
-        # HARDCODEADO
+        # Obtener respuestas del comentario
         replies = requests.get(
-            f"https://graph.facebook.com/v13.0/{ str(comment.get('id')) }/comments?access_token={ 'EAAKoUFyzI60BAB73lkzNINdZCdNdNfnnZCUCwZCy2qBlX47B6Dls586GL4iNB852todYJnQJNAOVCQgyqM3gPG6GVh4AT0LOI3BMhRpPHooQNwSZCCvaITx2A2ZB1pEtlfnUqQAF8AIBGOQbsogkeMAbsoFFPRHoZAYdM968D8SmE69CLDABRZC' }").json()
+            f"https://graph.facebook.com/v13.0/{ str(comment.get('id')) }/comments?access_token={ str(self.access_token) }&app_id=748013059515309").json()
         
-        return any([replie.get('from').get('id') == self.page_id for replie in replies.get('data')])
+        for c in replies.get('data'):
+            if c:
+                if c.get('from'):
+                    if c.get('from').get('id') == self.page_id:
+                        return True
+
+        return False
+        # return any([replie.get('from').get('id') == self.page_id for replie in replies.get('data')])
 
 
     def get_profile_picture(self, id = None):
@@ -296,7 +303,7 @@ class Facebook:
             comments = post.get('comments')
             new_comments = []
             for comment in comments:
-                if not self.already_liked(comment):
+                if not self.already_answered(comment):
 
                     cant_comentarios_sin_responder += 1
 
